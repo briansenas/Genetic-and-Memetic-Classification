@@ -1,0 +1,3 @@
+/home/briansena/Desktop/P2/CMakeFiles/AGGEN.dir
+/home/briansena/Desktop/P2/CMakeFiles/edit_cache.dir
+/home/briansena/Desktop/P2/CMakeFiles/rebuild_cache.dir

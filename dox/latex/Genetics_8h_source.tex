@@ -1,0 +1,61 @@
+\hypertarget{Genetics_8h_source}{}\doxysection{Genetics.\+h}
+\label{Genetics_8h_source}\index{tools/Genetics.h@{tools/Genetics.h}}
+\mbox{\hyperlink{Genetics_8h}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#ifndef GENETICS\_H}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define GENETICS\_H}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}../inc/eigen-\/3.4.0/Eigen/Dense"{}}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Euclidean_8h}{Euclidean.h}}"{}}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include "{}../inc/random.hpp"{}}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{28 \textcolor{keyword}{using namespace }Eigen;}
+\DoxyCodeLine{29 \textcolor{keyword}{using namespace }std::chrono;}
+\DoxyCodeLine{30 \textcolor{keyword}{using} Random = effolkronium::random\_static;}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{comment}{/*}}
+\DoxyCodeLine{33 \textcolor{comment}{ * @brief Dado dos padres, añadimos sus columnas y multiplicamos cada valor}}
+\DoxyCodeLine{34 \textcolor{comment}{ * por un valor alpha generado aleatoriamente entre 0 y 1. Esto lo realizamos}}
+\DoxyCodeLine{35 \textcolor{comment}{ * dos veces para generar dos hijos.}}
+\DoxyCodeLine{36 \textcolor{comment}{ * @param parent1 padre número 1.}}
+\DoxyCodeLine{37 \textcolor{comment}{ * @param parent2 padre número 2.}}
+\DoxyCodeLine{38 \textcolor{comment}{ * @param res1 hijo número 1.}}
+\DoxyCodeLine{39 \textcolor{comment}{ * @param res2 hijo número 2.}}
+\DoxyCodeLine{40 \textcolor{comment}{ */}}
+\DoxyCodeLine{41 \textcolor{keywordtype}{void} ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd\& res1, RowVectorXd\& res2,\textcolor{keywordtype}{long} \textcolor{keywordtype}{int} seed=-\/1);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{/*}}
+\DoxyCodeLine{44 \textcolor{comment}{ * @brief Dado dos padres, para cada columna calculamos el valor máximo entre ellos}}
+\DoxyCodeLine{45 \textcolor{comment}{ * y el valor mínimo, con estos valores computamos la distancia y de manera que}}
+\DoxyCodeLine{46 \textcolor{comment}{ * tenemos el intervalo [Mínimo -\/ alpha * Distance, Máximo + alpha * Distancia].}}
+\DoxyCodeLine{47 \textcolor{comment}{ * Ese intervalo se utiliza para generar un número aleatorio para esa columna.}}
+\DoxyCodeLine{48 \textcolor{comment}{ * @param parent1 padre número 1.}}
+\DoxyCodeLine{49 \textcolor{comment}{ * @param parent2 padre número 2.}}
+\DoxyCodeLine{50 \textcolor{comment}{ * @param res1 hijo número 1.}}
+\DoxyCodeLine{51 \textcolor{comment}{ * @param res2 hijo número 2.}}
+\DoxyCodeLine{52 \textcolor{comment}{ * @param alpha valor del blx que multiplica la distancia}}
+\DoxyCodeLine{53 \textcolor{comment}{ * @param seed semilla para el generado de números aleatorios}}
+\DoxyCodeLine{54 \textcolor{comment}{ */}}
+\DoxyCodeLine{55 \textcolor{keywordtype}{void} BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd\& res1, RowVectorXd\& res2, \textcolor{keywordtype}{float} alpha=0.3, \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} seed=-\/1);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{comment}{/*}}
+\DoxyCodeLine{58 \textcolor{comment}{ * @brief Data una matriz de datos con sus etiquetas y una matriz de pesos,}}
+\DoxyCodeLine{59 \textcolor{comment}{ * para cada fila de la matriz de pesos computamos el valor resultante del 1NN}}
+\DoxyCodeLine{60 \textcolor{comment}{ * ponderado con los parámetros de reducción y tasa de acierto multiplicados por}}
+\DoxyCodeLine{61 \textcolor{comment}{ * el valor alpha.}}
+\DoxyCodeLine{62 \textcolor{comment}{ * @param data matriz con los datos,}}
+\DoxyCodeLine{63 \textcolor{comment}{ * @param Tlabel vector con las etiquetas,}}
+\DoxyCodeLine{64 \textcolor{comment}{ * @param Solutions matriz con los pesos}}
+\DoxyCodeLine{65 \textcolor{comment}{ * @param alpha Ponderación entre reducción y Tasa de Aciertos.}}
+\DoxyCodeLine{66 \textcolor{comment}{ * @return Devolvemos un vector con la puntuación de cada fila en sus columnas.}}
+\DoxyCodeLine{67 \textcolor{comment}{ */}}
+\DoxyCodeLine{68 RowVectorXd \mbox{\hyperlink{Genetics_8h_af0aebd9593bd511930e3bdef68afcf21}{getFit}}(MatrixXd data, vector<char> Tlabel, MatrixXd\& Solutions,\textcolor{keywordtype}{float} alpha=0.5);}
+\DoxyCodeLine{69 RowVectorXd \mbox{\hyperlink{Genetics_8h_af0aebd9593bd511930e3bdef68afcf21}{getFit}}(MatrixXd data, vector<char> Tlabel, MatrixXd\& Solutions, MatrixXd\& GenData, \textcolor{keywordtype}{float} alpha=0.5);}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

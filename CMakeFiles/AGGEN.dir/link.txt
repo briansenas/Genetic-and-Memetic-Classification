@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -Wextra -O3 CMakeFiles/AGGEN.dir/src/AGGEN.cpp.o CMakeFiles/AGGEN.dir/src/mytools.cpp.o CMakeFiles/AGGEN.dir/src/Euclidean.cpp.o CMakeFiles/AGGEN.dir/src/ReadData.cpp.o CMakeFiles/AGGEN.dir/src/Genetics.cpp.o -o bin/AGGEN 

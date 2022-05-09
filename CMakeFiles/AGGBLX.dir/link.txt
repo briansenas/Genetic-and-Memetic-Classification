@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -Wextra -O3 CMakeFiles/AGGBLX.dir/src/AGGBLX.cpp.o CMakeFiles/AGGBLX.dir/src/mytools.cpp.o CMakeFiles/AGGBLX.dir/src/Euclidean.cpp.o CMakeFiles/AGGBLX.dir/src/ReadData.cpp.o CMakeFiles/AGGBLX.dir/src/Genetics.cpp.o -o bin/AGGBLX 
