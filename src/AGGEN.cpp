@@ -23,9 +23,9 @@ int main(int argc, char** argv){
 
     if(argc<=8){
         cerr << "[ERROR] Couldn't resolve file name;" << endl;
-        cerr << "[SOLVE] Exec: ./main  [filename] [type1] [type2] {seed}[-inf,inf] {No/Shuffle/Balanced}[0,2]\n" <<
-         "\t {BLX/ARITHMETIC}[0,1] {POP.SIZE}[0-30] {No/LocalSearch}[0,1] \n"  <<
-         "\t [OPTIONAL:] {EveryWhen}[0,inf] {HowMany}[0.0-1.0] {Best/Worst}[0,1]" << endl;
+        cerr << "[EXECUTION:] ./main (filename_directory) (label1)[char] (label2)[char] (seed)[-∞,∞] \n"
+        << "\t\t(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)[0,∞] (0=No/1=LocalSearch) \n"
+        << "\t\t{LOCALSEARCH OPTIONAL: (HowOften)[0,inf] (POP.Percentage)[0.0,1.0] (0=Random/1=OnlyBest)}" << endl;
         exit(-1);
     }
     bool debuggin = false;
@@ -38,6 +38,8 @@ int main(int argc, char** argv){
     int shuffle = atoi(argv[5]);
     int CrossType = atoi(argv[6]);
     int Chromo = atoi(argv[7]);
+    if(Chromo < 0)
+        Chromo *= -1;
     int localSearch = atoi(argv[8]);
     // Default values:
     int Every = 10, perf = -1;
@@ -49,7 +51,8 @@ int main(int argc, char** argv){
             amount = atof(argv[10]);
         if(argv[11] != NULL)
             perf = atoi(argv[11]);
-    }else if(localSearch==1){
+    }
+    if(localSearch==1){
         cout << "[WARNING] Using default values for localsearch \n";
         cout << "[LOCALSEARCH] Every:  " << Every << endl;
         cout << "[LOCALSEARCH]: SIZE: " << localsize << " - " << ((perf==1)?"SOLO MEJORES\n":"ALEATORIO\n");
@@ -57,7 +60,6 @@ int main(int argc, char** argv){
 
     vector<char> label;
     MatrixXd allData = readValues(filename,label);
-
 
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
     int cols = allData.cols(), pair;
@@ -70,7 +72,7 @@ int main(int argc, char** argv){
 
     Solutions = (MatrixXd::Random(Chromo,cols) + MatrixXd::Constant(Chromo,cols,1))/2.0;
     // RowVectorXd Fitness(Chromo), NewFitness(Chromo);
-    RowVectorXd Cross1(Chromo), Cross2(Chromo);
+    RowVectorXd Cross1(Chromo), Cross2(Chromo), stored_fit(2);
     long int evaluations = 0, max_evaluations = 15000;
     unsigned int i, size, Diversidad = 1,generation=0, nuevos;
     unsigned int maxTilBetter = 20*allData.cols(), eval_num=0,max_eval=15000;
@@ -104,10 +106,14 @@ int main(int argc, char** argv){
         // GET INITIAL FITNESS
         //Fitness = getFit(data,Tlabel, Solutions,0.5);
         getFit(data,Tlabel,Solutions,GenData,0.5);
+
         generation = evaluations = 0;
         while(evaluations < max_evaluations) {
             //shuffleFit(Solutions, Fitness,-1);
             shuffleFit(Solutions,GenData,-1);
+            // GET BEST
+            GenData.rowwise().sum().maxCoeff(&maxIndex);
+            stored_fit = GenData.row(maxIndex);
 
             // START CROSSING
             pair = 0;
@@ -138,36 +144,36 @@ int main(int argc, char** argv){
 
             // LOCALSEARCH
             if(localSearch==1 && generation%Every==0){
-                getFit(data,Tlabel,NewPopulation, NewGenData, 0.5);
+                getFit(data,Tlabel,NewPopulation, GenData, 0.5);
                 if(perf!=1){
                     //shuffleFit(Solutions, Fitness,-1);
                     shuffleFit(NewPopulation,NewGenData,-1);
                     for(i=0,size=localsize;i<size;++i){
-                        behaviour[0] = NewGenData(i,0);
-                        behaviour[1] = NewGenData(i,1);
+                        behaviour[0] = GenData(i,0);
+                        behaviour[1] = GenData(i,1);
                         NewPopulation.row(i) = LocalSearch(data,Tlabel, NewPopulation.row(i),
                                 eval_num, max_eval,maxTilBetter,behaviour,0.5);
-                        NewGenData(i,0) = behaviour[0];
-                        NewGenData(i,1) = behaviour[1];
+                        GenData(i,0) = behaviour[0];
+                        GenData(i,1) = behaviour[1];
                         evaluations += eval_num;
                     }
                 }else{
                     // Do over the best only
                     getBest(NewGenData,indexGrid,localsize);
                     for(i=0;i<localsize;++i){
-                        behaviour[0] = NewGenData(indexGrid[i],0);
-                        behaviour[1] = NewGenData(indexGrid[i],1);
+                        behaviour[0] = GenData(indexGrid[i],0);
+                        behaviour[1] = GenData(indexGrid[i],1);
                         NewPopulation.row(indexGrid[i]) =
                             LocalSearch(data,Tlabel, NewPopulation.row(indexGrid[i]),
                                     eval_num, max_eval,maxTilBetter,behaviour,0.5);
-                        NewGenData(indexGrid[i],0) = behaviour[0];
-                        NewGenData(indexGrid[i],1) = behaviour[1];
+                        GenData(indexGrid[i],0) = behaviour[0];
+                        GenData(indexGrid[i],1) = behaviour[1];
                         evaluations += eval_num;
                     }
                 }
             }else{
                 //NewFitness = getFit(data,Tlabel,NewPopulation, NewGenData, 0.5);
-                getFit(data,Tlabel,NewPopulation, NewGenData, 0.5);
+                getFit(data,Tlabel,NewPopulation, GenData, 0.5);
             }
 
             evaluations += Solutions.rows();
@@ -176,14 +182,13 @@ int main(int argc, char** argv){
             // MAKE SURE THE OLD BEST IS IN THE NEXT POPULATION
             //NewFitness.minCoeff(&minIndex);
             //NewFitness(minIndex) = Fitness.maxCoeff(&maxIndex);
-            NewGenData.rowwise().sum().minCoeff(&minIndex);
-            GenData.rowwise().sum().maxCoeff(&maxIndex);
-            NewGenData.row(minIndex) = GenData.row(maxIndex);
+            GenData.rowwise().sum().minCoeff(&minIndex);
+            GenData.row(minIndex) = stored_fit;
             NewPopulation.row(minIndex) = Solutions.row(maxIndex);
 
             Solutions = NewPopulation;
             //Fitness = NewFitness;
-            GenData = NewGenData;
+            //GenData = NewGenData;
 
             if(debuggin){
                 GenData.rowwise().sum().maxCoeff(&maxIndex);

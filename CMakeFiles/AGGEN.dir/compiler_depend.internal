@@ -507,8 +507,8 @@ CMakeFiles/AGGEN.dir/src/AGGEN.cpp.o
  /usr/include/c++/11/bits/locale_conv.h
  /usr/include/c++/11/bits/quoted_string.h
 
-CMakeFiles/AGGEN.dir/src/Euclidean.cpp.o
- /home/briansena/Desktop/P2/src/Euclidean.cpp
+CMakeFiles/AGGEN.dir/src/Util_Euclidean.cpp.o
+ /home/briansena/Desktop/P2/src/Util_Euclidean.cpp
  /usr/include/stdc-predef.h
  /home/briansena/Desktop/P2/tools/Euclidean.h
  /home/briansena/Desktop/P2/inc/eigen-3.4.0/Eigen/Dense
@@ -1000,8 +1000,8 @@ CMakeFiles/AGGEN.dir/src/Euclidean.cpp.o
  /usr/include/c++/11/math.h
  /usr/include/c++/11/iostream
 
-CMakeFiles/AGGEN.dir/src/Genetics.cpp.o
- /home/briansena/Desktop/P2/src/Genetics.cpp
+CMakeFiles/AGGEN.dir/src/Util_Genetics.cpp.o
+ /home/briansena/Desktop/P2/src/Util_Genetics.cpp
  /usr/include/stdc-predef.h
  /home/briansena/Desktop/P2/tools/Genetics.h
  /home/briansena/Desktop/P2/inc/eigen-3.4.0/Eigen/Dense
@@ -1495,8 +1495,8 @@ CMakeFiles/AGGEN.dir/src/Genetics.cpp.o
  /usr/include/c++/11/math.h
  /usr/include/c++/11/iostream
 
-CMakeFiles/AGGEN.dir/src/ReadData.cpp.o
- /home/briansena/Desktop/P2/src/ReadData.cpp
+CMakeFiles/AGGEN.dir/src/Util_ReadData.cpp.o
+ /home/briansena/Desktop/P2/src/Util_ReadData.cpp
  /usr/include/stdc-predef.h
  /home/briansena/Desktop/P2/tools/ReadData.h
  /home/briansena/Desktop/P2/inc/eigen-3.4.0/Eigen/Dense
@@ -1989,8 +1989,8 @@ CMakeFiles/AGGEN.dir/src/ReadData.cpp.o
  /usr/include/c++/11/math.h
  /usr/include/c++/11/iostream
 
-CMakeFiles/AGGEN.dir/src/mytools.cpp.o
- /home/briansena/Desktop/P2/src/mytools.cpp
+CMakeFiles/AGGEN.dir/src/Util_mytools.cpp.o
+ /home/briansena/Desktop/P2/src/Util_mytools.cpp
  /usr/include/stdc-predef.h
  /home/briansena/Desktop/P2/tools/mytools.h
  /home/briansena/Desktop/P2/inc/eigen-3.4.0/Eigen/Dense

@@ -151,13 +151,6 @@ Eigen::MatrixXd removeColumn(Eigen::MatrixXd matrix, unsigned int colToRemove)
     return matrix;
 }
 
-/*
- * @brief Iteramos sobre el vector de puntuación y devolvemos un vector de
- * tamaño size con los índices de los "size" primeros mejores valores.
- * @param Fitness Vector a iterar.
- * @param indexGrid Índices resultantes.
- * @param size Número de posiciones a computar.
- */
 void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size){
     indexGrid.clear();
     vector<int> values, sorted;

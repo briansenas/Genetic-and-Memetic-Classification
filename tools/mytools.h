@@ -87,7 +87,13 @@ Eigen::MatrixXd removeRow(Eigen::MatrixXd matrix, unsigned int rowToRemove);
  **/
 Eigen::MatrixXd removeCol(Eigen::MatrixXd matrix, unsigned int colToRemove);
 
-
+/*
+ * @brief Iteramos sobre el vector de puntuación y devolvemos un vector de
+ * tamaño size con los índices de los "size" primeros mejores valores.
+ * @param Fitness Vector a iterar.
+ * @param indexGrid Índices resultantes.
+ * @param size Número de posiciones a computar.
+ */
 void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size);
 void getBest(MatrixXd GenData,vector<int>& indexGrid,unsigned int size);
 

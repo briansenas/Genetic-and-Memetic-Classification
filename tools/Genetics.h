@@ -69,6 +69,19 @@ void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVec
 RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,float alpha=0.5);
 RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions, MatrixXd& GenData, float alpha=0.5);
 
+/*
+ *@brief Aplicamos búqueda local desde 0 hasta max_eval, con un máximo de vecinos
+ visitados igual a maxTilBetter;
+    Los valores que devuelven son: El nuevo peso por return, el valor de fitness
+    de ese peso y el número de evaluaciones utilizados;
+ *@param allData Matriz con los datos.
+ *@param label Etiquetas del vector.
+ *@param Weight Peso a mejorar.
+ *@param eval_num parte de 0 y devuelve el número de evaluaciones obtenidos;
+ *@param max_eval número máximo de evaluaciones
+ *@param fitness puntuación obtenida por los pesos.
+ *@param alpha ponderación de la función.
+ */
 RowVectorXd LocalSearch(MatrixXd allData,vector<char> label, RowVectorXd Weights,
 unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector<float>& fitness, float alpha);
 

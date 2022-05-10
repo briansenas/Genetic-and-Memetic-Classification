@@ -23,9 +23,9 @@ int main(int argc, char** argv){
 
     if(argc<=8){
         cerr << "[ERROR] Couldn't resolve file name;" << endl;
-        cerr << "[SOLVE] Exec: ./main  [filename] [type1] [type2] {seed}[-inf,inf] {No/Shuffle/Balanced}[0,2]\n" <<
-         "\t {BLX/ARITHMETIC}[0,1] {POP.SIZE}[0-30] {No/LocalSearch}[0,1] \n"  <<
-         "\t [OPTIONAL:] {EveryWhen}[0,inf] {HowMany}[0.0-1.0] {Best/Worst}[0,1]" << endl;
+        cerr << "[EXECUTION:] ./main (filename_directory) (label1)[char] (label2)[char] (seed)[-∞,∞] \n"
+        << "\t\t(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)[0,∞] (0=No/1=LocalSearch) \n"
+        << "\t\t{LOCALSEARCH OPTIONAL: (HowOften)[0,inf] (POP.Percentage)[0.0,1.0] (0=Random/1=OnlyBest)}" << endl;
         exit(-1);
     }
     bool debuggin = false;
@@ -38,6 +38,8 @@ int main(int argc, char** argv){
     int shuffle = atoi(argv[5]);
     int CrossType = atoi(argv[6]);
     int Chromo = atoi(argv[7]);
+    if(Chromo < 0)
+        Chromo *= -1;
     int localSearch = atoi(argv[8]);
     // Default values:
     int Every = 10, perf = -1;
@@ -49,7 +51,8 @@ int main(int argc, char** argv){
             amount = atof(argv[10]);
         if(argv[11] != NULL)
             perf = atoi(argv[11]);
-    }else if(localSearch==1){
+    }
+    if(localSearch==1){
         cout << "[WARNING] Using default values for localsearch \n";
         cout << "[LOCALSEARCH] Every:  " << Every << endl;
         cout << "[LOCALSEARCH]: SIZE: " << localsize << " - " << ((perf==1)?"SOLO MEJORES\n":"ALEATORIO\n");

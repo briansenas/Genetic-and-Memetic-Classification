@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-ADD_EXECUTABLE(AGGEN src/AGGEN.cpp src/mytools.cpp src/Euclidean.cpp src/ReadData.cpp
-                src/Genetics.cpp)
-ADD_EXECUTABLE(AGEST src/AGEST.cpp src/mytools.cpp src/Euclidean.cpp src/ReadData.cpp
-                src/Genetics.cpp)
+ADD_EXECUTABLE(AGGEN src/AGGEN.cpp src/Util_mytools.cpp src/Util_Euclidean.cpp
+                src/Util_ReadData.cpp src/Util_Genetics.cpp)
+ADD_EXECUTABLE(AGEST src/AGEST.cpp src/Util_mytools.cpp src/Util_Euclidean.cpp
+                src/Util_ReadData.cpp src/Util_Genetics.cpp)
