@@ -20,6 +20,7 @@
 
 #include "../inc/eigen-3.4.0/Eigen/Dense"
 #include "Euclidean.h"
+#include "mytools.h"
 #include "../inc/random.hpp"
 #include <string.h>
 #include <vector>
@@ -67,5 +68,8 @@ void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVec
  */
 RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,float alpha=0.5);
 RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions, MatrixXd& GenData, float alpha=0.5);
+
+RowVectorXd LocalSearch(MatrixXd allData,vector<char> label, RowVectorXd Weights,
+unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector<float>& fitness, float alpha);
 
 #endif

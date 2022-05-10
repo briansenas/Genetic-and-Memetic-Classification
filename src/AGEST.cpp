@@ -21,17 +21,31 @@ using Random = effolkronium::random_static;
 
 int main(int argc, char** argv){
 
-    if(argc<=4){
+    if(argc<=6){
         cerr << "[ERROR] Couldn't resolve file name;" << endl;
-        cerr << "[SOLVE] Exec: ./main {filename} {seed} {No-Shuffle}[0-1] {BLX-ARITHMETIC}[0-1]" << endl;
+        cerr << "[SOLVE] Exec: ./main {filename} {seed}[-inf,inf] {No/Shuffle}[0,1]\n" <<
+         "\t {BLX/ARITHMETIC}[0,1] {POP.SIZE}[0-30] {No/LocalSearch}[0,1] \n"  <<
+         "\t [OPTIONAL:] {EveryWhen}[0,inf] {HowMany}[0,1] {Best/Worst}[0,1]" << endl;
         exit(-1);
     }
 
-    /// Leemos los datos de entrada como es el archivo, clase1, clase2 y la semilla.
+    /// Leemos los datos de entrada como es el archivo, barajar, tipo de cruce...
     string filename = argv[1];
     long int seed = atoi(argv[2]);
     int shuffle = atoi(argv[3]);
     int CrossType = atoi(argv[4]);
+    int Chromo = atoi(argv[5]);
+    int localSearch = atoi(argv[6]);
+    // Default values:
+    int Every = 10, perf = -1;
+    float amount = 0.1;
+    if(localSearch==1 && argc>7){
+        Every = atoi(argv[7]);
+        if(argv[8] != NULL)
+            amount = atof(argv[8]);
+        if(argv[9] != NULL)
+            perf = atoi(argv[9]);
+    }
     vector<char> label;
     MatrixXd allData = readValues(filename,label);
 
@@ -42,17 +56,18 @@ int main(int argc, char** argv){
     }
 
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
-    int Chromo= 30, cols = allData.cols(), pair;
+    int cols = allData.cols();
     float P_m = 0.1, min, max;
-    int Mutacion = P_m * (Chromo * cols), Rest;
+    vector<float> behaviour; behaviour.resize(2);
     MatrixXd Solutions(Chromo, cols), Descendents(2,cols);
-    MatrixXd NewPopulation(Chromo, cols), GenData(Chromo,2), NewGenData(Chromo,2), DFit(2,2);
+    MatrixXd GenData(Chromo,2), DFit(2,2);
 
     Solutions = (MatrixXd::Random(Chromo,cols) + MatrixXd::Constant(Chromo,cols,1))/2.0;
     // RowVectorXd Fitness(Chromo), NewFitness(Chromo);
     RowVectorXd Cross1(Chromo), Cross2(Chromo);
     long int evaluations = 0, max_evaluations = 15000;
-    unsigned int i, size, Diversidad = 1,generation=0, pair1, pair2;
+    unsigned int i, size, Diversidad = 1,generation=0, pair1=0, pair2=0;
+    unsigned int maxTilBetter = 20*allData.cols(), eval_num=0,max_eval=15000, localsize=ceil(amount*Chromo);
     RowVectorXd::Index minIndex,maxIndex;
     vector<int> indexGrid;
     high_resolution_clock::time_point momentoInicio, momentoFin;
@@ -75,19 +90,19 @@ int main(int argc, char** argv){
         }while(pair1==pair2);
 
         if(CrossType == 0)
-            BLXCross(Solutions.row(pair),Solutions.row(pair + 1),Cross1,Cross2);
+            BLXCross(Solutions.row(pair1),Solutions.row(pair2),Cross1,Cross2);
         else
-            ArithmeticCross(Solutions.row(pair),Solutions.row(pair + 1),Cross1,Cross2);
+            ArithmeticCross(Solutions.row(pair1),Solutions.row(pair2),Cross1,Cross2);
 
         pair1 = Random::get(0,1);
-        if(pair1<0.1){
+        if(pair1<=P_m){
             Diversidad = Random::get<unsigned>(0,allData.cols()-1);
             for(i=0,size=Diversidad;i<size;++i){
                 Cross1(Random::get<unsigned>(0,allData.cols()-1)) += Random::get(distribution);
             }
         }
         pair2 = Random::get(0,1);
-        if(pair1<0.1){
+        if(pair1<=P_m){
             Diversidad = Random::get<unsigned>(0,allData.cols()-1);
             for(i=0,size=Diversidad;i<size;++i){
                 Cross1(Random::get<unsigned>(0,allData.cols()-1)) += Random::get(distribution);
@@ -97,7 +112,6 @@ int main(int argc, char** argv){
         Descendents.row(1) = Cross1;
 
         getFit(allData,label,Descendents,DFit,0.5);
-
 
         // COMPETE TO GET BACK IN POPULATION
         min = GenData.rowwise().sum().minCoeff(&minIndex);
@@ -114,6 +128,39 @@ int main(int argc, char** argv){
             Solutions.row(minIndex) = Descendents.row(maxIndex);  // Interchange parameters
         }
 
+        // LOCALSEARCH
+        if(localSearch==1 && generation%Every==0){
+            cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
+            cout << "[LOCALSEARCH] GEN: " << generation << "\n";
+            cout << "[PARAMETERS] SIZE: " << localsize << " - " << ((perf==1)?"SOLO MEJORES\n":"ALEATORIO\n");
+            cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+            if(perf!=1){
+                //shuffleFit(Solutions, Fitness,-1);
+                //shuffleFit(Solutions,GenData,-1);
+                for(i=0,size=localsize;i<size;++i){
+                    behaviour[0] = GenData(i,0);
+                    behaviour[1] = GenData(i,1);
+                    Solutions.row(i) = LocalSearch(allData,label, Solutions.row(i),
+                            eval_num, max_eval,maxTilBetter,behaviour,0.5);
+                    GenData(i,0) = behaviour[0];
+                    GenData(i,1) = behaviour[1];
+                    evaluations += eval_num;
+                }
+            }else{
+                // Do over the best only
+                getBest(GenData,indexGrid,localsize);
+                for(i=0;i<localsize;++i){
+                    behaviour[0] = GenData(i,0);
+                    behaviour[1] = GenData(i,1);
+                    Solutions.row(indexGrid[i]) =
+                        LocalSearch(allData,label, Solutions.row(indexGrid[i]),
+                                    eval_num, max_eval,maxTilBetter,behaviour,0.5);
+                    GenData(i,0) = behaviour[0];
+                    GenData(i,1) = behaviour[1];
+                    evaluations += eval_num;
+                }
+            }
+        }
         evaluations += 2;
         ++generation;
 
@@ -136,5 +183,6 @@ int main(int argc, char** argv){
         << "Aciertos: " <<  GenData(maxIndex,0) << " + Reducción: " << GenData(maxIndex,1)  << "\n";
     cout << "[WORTS FITNESS]: " << GenData.row(minIndex).sum() << " -> "
         << "Aciertos: " << GenData(minIndex,0) << " + Reducción:" << GenData(minIndex,1)  << "\n";
+    cout << "[TIME]: " << tiempo.count() << endl;
     return 0;
 }

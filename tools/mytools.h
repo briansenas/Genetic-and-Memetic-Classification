@@ -87,4 +87,8 @@ Eigen::MatrixXd removeRow(Eigen::MatrixXd matrix, unsigned int rowToRemove);
  **/
 Eigen::MatrixXd removeCol(Eigen::MatrixXd matrix, unsigned int colToRemove);
 
+
+void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size);
+void getBest(MatrixXd GenData,vector<int>& indexGrid,unsigned int size);
+
 #endif

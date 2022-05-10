@@ -173,3 +173,9 @@ void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size){
         indexGrid.push_back(int(index-values.begin()));
     }
 }
+
+void getBest(MatrixXd GenData,vector<int>& indexGrid,unsigned int size){
+    RowVectorXd Fitness(GenData.rows());
+    Fitness = GenData.rowwise().sum().transpose();
+    getBest(Fitness, indexGrid,size);
+}

@@ -132,3 +132,72 @@ RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,Matri
     }
     return results;
 }
+
+RowVectorXd LocalSearch(MatrixXd allData,vector<char> label, RowVectorXd Weights,
+unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector<float>& fitness, float alpha){
+    eval_num = 0;
+    vector<int> indexGrid, Evaluations;
+    fillRange(indexGrid,allData.cols());
+    std::normal_distribution<double> distribution(0.0, sqrt(0.3));
+    unsigned int i=0,size=0, tilBetter = 0, ran_num = 0, reduct, right, ManualNeighbour;
+    RowVectorXd Weights_before(allData.cols());
+    float function_after=0, function_before=0, reduction_rate, right_rate;
+    if(fitness.size()<=1){
+        fitness.clear();
+        fitness.push_back(0);
+        fitness.push_back(0);
+    }else{
+        function_before = fitness[0] + fitness[1];
+    }
+    while(eval_num < max_eval and tilBetter<maxTilBetter ){
+        /// Modificamos el indice barajado correspondiente para modificar los pesos.
+        Weights[indexGrid[ran_num++]] += Random::get(distribution);
+        /// Si hemos modificados volvemos a barajar.
+        if(ran_num>=indexGrid.size()){
+            Random::shuffle(indexGrid);
+            ran_num = 0;
+        }
+
+        reduct = 0;
+        /// Truncamos los pesos a 0 y 1; Contamos las reducciones a 0.
+        for(i=0,size=Weights.cols();i<size;i++){
+            if(*(Weights.data() + i) < 0.1){
+                *(Weights.data() + i) = 0;
+                reduct++;
+            }
+            else if(*(Weights.data()+i)>1)
+                *(Weights.data()+i) = 1;
+        }
+
+        right = 0;
+        /// Verificamos el porcentaje de acierto obtenido con la modificación.
+        for(i=0,size=allData.rows();i<size;i++){
+            ManualEuclideanDistance(Weights,allData.row(i),allData,i, ManualNeighbour);
+            if(label[i] == label[ManualNeighbour])
+                right++;
+        }
+
+        /// Evaluamos la función.
+        reduction_rate = (1-alpha)*(float(reduct)/float(Weights.cols()));
+        right_rate = alpha*(float(right)/float(allData.rows()));
+        //function_after = alpha*(right/allData.rows()) + (1-alpha)*(reduct/Weights.cols());
+        function_after = right_rate + reduction_rate;
+        eval_num++;
+
+        /// Verificamos si hemos mejorado, actuamos acorde.
+        if(function_after <= function_before){
+            tilBetter++;
+            Weights = Weights_before;
+        }else{
+            fitness.at(0) = right_rate;
+            fitness.at(1) = reduction_rate;
+            tilBetter = 0;
+            Weights_before = Weights;
+            function_before = function_after;
+            Random::shuffle(indexGrid);
+            ran_num = 0;
+        }
+
+    } // END WHILE
+    return Weights;
+}
