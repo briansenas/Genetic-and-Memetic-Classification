@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -Wextra -O3 CMakeFiles/AGEST.dir/src/AGEST.cpp.o CMakeFiles/AGEST.dir/src/mytools.cpp.o CMakeFiles/AGEST.dir/src/Euclidean.cpp.o CMakeFiles/AGEST.dir/src/ReadData.cpp.o CMakeFiles/AGEST.dir/src/Genetics.cpp.o -o bin/AGEST 

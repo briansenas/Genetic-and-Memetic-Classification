@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/briansena/Desktop/P2
 
 # The main recursive "all" target.
 all: CMakeFiles/AGGEN.dir/all
+all: CMakeFiles/AGEST.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,6 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/AGGEN.dir/clean
+clean: CMakeFiles/AGEST.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -81,7 +83,7 @@ clean: CMakeFiles/AGGEN.dir/clean
 CMakeFiles/AGGEN.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AGGEN.dir/build.make CMakeFiles/AGGEN.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AGGEN.dir/build.make CMakeFiles/AGGEN.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/briansena/Desktop/P2/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target AGGEN"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/briansena/Desktop/P2/CMakeFiles --progress-num=7,8,9,10,11,12 "Built target AGGEN"
 .PHONY : CMakeFiles/AGGEN.dir/all
 
 # Build rule for subdir invocation for target.
@@ -99,6 +101,32 @@ AGGEN: CMakeFiles/AGGEN.dir/rule
 CMakeFiles/AGGEN.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AGGEN.dir/build.make CMakeFiles/AGGEN.dir/clean
 .PHONY : CMakeFiles/AGGEN.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/AGEST.dir
+
+# All Build rule for target.
+CMakeFiles/AGEST.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AGEST.dir/build.make CMakeFiles/AGEST.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AGEST.dir/build.make CMakeFiles/AGEST.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/briansena/Desktop/P2/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target AGEST"
+.PHONY : CMakeFiles/AGEST.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/AGEST.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/briansena/Desktop/P2/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/AGEST.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/briansena/Desktop/P2/CMakeFiles 0
+.PHONY : CMakeFiles/AGEST.dir/rule
+
+# Convenience name for target.
+AGEST: CMakeFiles/AGEST.dir/rule
+.PHONY : AGEST
+
+# clean rule for target.
+CMakeFiles/AGEST.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AGEST.dir/build.make CMakeFiles/AGEST.dir/clean
+.PHONY : CMakeFiles/AGEST.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
