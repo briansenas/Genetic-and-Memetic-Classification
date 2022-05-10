@@ -43,7 +43,7 @@ int main(int argc, char** argv){
     int Every = 10, perf = -1;
     float amount = 0.1;
     unsigned int localsize=ceil(amount*Chromo);
-    if(localSearch==1 && argc>8){
+    if(localSearch==1 && argc>9){
         Every = atoi(argv[9]);
         if(argv[10] != NULL)
             amount = atof(argv[10]);
@@ -51,8 +51,8 @@ int main(int argc, char** argv){
             perf = atoi(argv[11]);
     }else if(localSearch==1){
         cout << "[WARNING] Using default values for localsearch \n";
-        cout << "LocalSearch every:  " << Every << endl;
-        cout << "SIZE: " << localsize << " - " << ((perf==1)?"SOLO MEJORES\n":"ALEATORIO\n");
+        cout << "[LOCALSEARCH] Every:  " << Every << endl;
+        cout << "[LOCALSEARCH]: SIZE: " << localsize << " - " << ((perf==1)?"SOLO MEJORES\n":"ALEATORIO\n");
     }
     vector<char> label;
     MatrixXd allData = readValues(filename,label);
