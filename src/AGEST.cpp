@@ -106,7 +106,7 @@ int main(int argc, char** argv){
         generation = evaluations = 0;
         while(evaluations < max_evaluations){
             //shuffleFit(Solutions, Fitness,-1);
-            shuffleFit(Solutions,GenData,-1);
+            shuffleFit(Solutions,GenData,seed);
 
             // START CROSSING
             do{
@@ -141,12 +141,12 @@ int main(int argc, char** argv){
             // LOCALSEARCH
             if(localSearch==1 && generation%Every==0){
                 if(perf!=1){
-                    shuffleFit(Descendents,DFit,-1);
+                    shuffleFit(Descendents,DFit,seed);
                     for(i=0,size=localsize;i<size && i<Descendents.rows();++i){
                         behaviour[0] = DFit(i,0);
                         behaviour[1] = DFit(i,1);
                         Descendents.row(i) = LocalSearch(data,Tlabel, Descendents.row(i),
-                                eval_num, max_eval,maxTilBetter,behaviour,0.5);
+                                eval_num, max_eval-evaluations,maxTilBetter,behaviour,0.5);
                         DFit(i,0) = behaviour[0];
                         DFit(i,1) = behaviour[1];
                         evaluations += eval_num;
@@ -159,7 +159,7 @@ int main(int argc, char** argv){
                         behaviour[1] = DFit(i,1);
                         Descendents.row(indexGrid[i]) =
                             LocalSearch(data,Tlabel, Descendents.row(indexGrid[i]),
-                                    eval_num, max_eval,maxTilBetter,behaviour,0.5);
+                                    eval_num, max_eval-evaluations,maxTilBetter,behaviour,0.5);
                         DFit(i,0) = behaviour[0];
                         DFit(i,1) = behaviour[1];
                         evaluations += eval_num;

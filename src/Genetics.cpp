@@ -86,9 +86,9 @@ void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, un
 }
 
 
-RowVectorXd getOnlyFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,float alpha ){
-    unsigned int right=0,  reduct = 0;
-    unsigned int j;
+RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,float alpha ){
+    unsigned int ManualNeighbour, right=0,  reduct = 0;
+    unsigned int i,j, size;
     RowVectorXd Weights;
     RowVectorXd results(Solutions.rows());
 
@@ -125,21 +125,36 @@ RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions, Matr
 RowVectorXd get1Fit(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, float alpha ){
     unsigned int right=0,  reduct = 0;
     RowVectorXd results(2);
-    getReductRight(data,Tlabel,Weights,right,reduct);
+    unsigned int i,size, ManualNeighbour;
+    reduct = 0;
+    for(i=0,size=Weights.cols();i<size;i++){
+        if(*(Weights.data() + i) < 0.1){
+            *(Weights.data() + i) = 0;
+            reduct++;
+        }
+        else if(*(Weights.data()+i)>1)
+            *(Weights.data()+i) = 1;
+    }
+    /// Verificamos el porcentaje de acierto obtenido con la modificación.
+    right = 0;
+    for(i=0,size=data.rows();i<size;i++){
+        ManualEuclideanDistance(Weights,data.row(i),data,i, ManualNeighbour);
+        if(Tlabel[i] == Tlabel[ManualNeighbour])
+            right++;
+    }
     results(0) = alpha*(float(right)/float(data.rows()));
-    results(1) = (1-alpha)*(float(reduct)/float(Weights.cols()));
+    results(1) = (1-alpha)*(float(reduct)/float(data.cols()));
     return results;
 }
 
 
 RowVectorXd LocalSearch(MatrixXd allData,vector<char> label, RowVectorXd Weights,
-unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector<float>& fitness, float alpha,long int seed){
-    Random::seed(seed);
+unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector<float>& fitness, float alpha){
     eval_num = 0;
     vector<int> indexGrid, Evaluations;
     fillRange(indexGrid,allData.cols());
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
-    unsigned int tilBetter = 0, ran_num = 0, reduct, right;
+    unsigned int i=0,size=0, tilBetter = 0, ran_num = 0, reduct, right, ManualNeighbour;
     RowVectorXd Weights_before(allData.cols());
     float function_after=0, function_before=0, reduction_rate, right_rate;
     if(fitness.size()<=1){
@@ -184,4 +199,3 @@ unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector
     } // END WHILE
     return Weights;
 }
-

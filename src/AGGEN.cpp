@@ -35,6 +35,7 @@ int main(int argc, char** argv){
     char type1 = *argv[2];
     char type2 = *argv[3];
     long int seed = atoi(argv[4]);
+    Random::seed(seed);
     int shuffle = atoi(argv[5]);
     int CrossType = atoi(argv[6]);
     int Chromo = atoi(argv[7]);
@@ -62,7 +63,7 @@ int main(int argc, char** argv){
     MatrixXd allData = readValues(filename,label);
 
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
-    int cols = allData.cols(), pair;
+    int cols = allData.cols();
     float P_c = 0.7, P_m = 0.1;
     vector<float> behaviour; behaviour.resize(2);
     int Cruzes = P_c * floor(Chromo/2.0);
@@ -74,7 +75,7 @@ int main(int argc, char** argv){
     // RowVectorXd Fitness(Chromo), NewFitness(Chromo);
     RowVectorXd Cross1(Chromo), Cross2(Chromo), stored_fit(2);
     long int evaluations = 0, max_evaluations = 15000;
-    unsigned int i, size, Diversidad = 1,generation=0, nuevos;
+    unsigned int i, size, Diversidad = 1,generation=0, nuevos, pair, parent;
     unsigned int maxTilBetter = 20*allData.cols(), eval_num=0,max_eval=15000;
     RowVectorXd::Index minIndex,maxIndex;
     vector<int> indexGrid;
@@ -94,6 +95,7 @@ int main(int argc, char** argv){
         group2 = getClassLabelled(allData,label, label_group2, type2);
     }
 
+    MatrixXd *P1, *NP2, *swapper;
     milliseconds tiempo;
 
     for(int x=0,folds=5;x<folds;x++){
@@ -105,12 +107,14 @@ int main(int argc, char** argv){
 
         // GET INITIAL FITNESS
         //Fitness = getFit(data,Tlabel, Solutions,0.5);
-        getFit(data,Tlabel,Solutions,GenData,0.5);
+        P1 = &Solutions;
+        NP2 = &NewPopulation;
+        getFit(data,Tlabel,*P1,GenData,0.5);
 
         generation = evaluations = 0;
         while(evaluations < max_evaluations) {
             //shuffleFit(Solutions, Fitness,-1);
-            shuffleFit(Solutions,GenData,-1);
+            shuffleFit(*P1,GenData,seed);
             // GET BEST
             GenData.rowwise().sum().maxCoeff(&maxIndex);
             stored_fit = GenData.row(maxIndex);
@@ -120,75 +124,93 @@ int main(int argc, char** argv){
             nuevos = 0;
             for(i=0,size=Cruzes;i<size;++i){
                 if(CrossType == 0)
-                    BLXCross(Solutions.row(pair),Solutions.row(pair + 1),Cross1,Cross2);
+                    BLXCross(P1->row(pair),P1->row(pair + 1),Cross1,Cross2);
                 else
-                    ArithmeticCross(Solutions.row(pair),Solutions.row(pair + 1),Cross1,Cross2);
-                NewPopulation.row(nuevos) = Cross1;
-                NewPopulation.row(nuevos+1) = Cross2;
-                //NewPopulation.row(nuevos+2) = (Fitness(pair)>Fitness(pair+1))? Solutions.row(pair) : Solutions.row(pair+1);
-                NewPopulation.row(nuevos+2) =
-                    (GenData.row(pair).sum()>GenData.row(pair+1).sum())? Solutions.row(pair) : Solutions.row(pair+1);
+                    ArithmeticCross(P1->row(pair),P1->row(pair + 1),Cross1,Cross2);
+
+
+                NP2->row(nuevos) = Cross1;
+                NP2->row(nuevos+1) = Cross2;
+
+                parent = (GenData.row(pair).sum()>GenData.row(pair+1).sum())? pair: pair+1;
+                NP2->row(nuevos+2) = P1->row(parent);
+                GenData.row(nuevos+2) = GenData.row(parent);
+
                 pair+=2;
                 nuevos+=3;
             }
 
             Rest = Mutacion;
+            indexGrid.clear();
             while(Rest > 0){
                 i = Random::get<unsigned>(0,Chromo-1);
                 Diversidad = Random::get<unsigned>(1,data.cols()-1);
                 for(unsigned int j=0;j<Diversidad;++j){
-                    NewPopulation(i,Random::get<unsigned>(0,data.cols()-1)) += Random::get(distribution);
+                    (*NP2)(i,Random::get<unsigned>(0,data.cols()-1)) += Random::get(distribution);
                 }
+
+                indexGrid.push_back(i);
                 Rest = Rest - Diversidad;
             }
 
+
+            nuevos = 0;
+            for(i=0,size=Cruzes;i<size;++i){
+                Cross1 = NP2->row(nuevos);
+                GenData.row(nuevos) = get1Fit(data,Tlabel,Cross1,0.5);
+                NP2->row(nuevos) = Cross1;
+                Cross2 = NP2->row(nuevos+1);
+                GenData.row(nuevos+1) = get1Fit(data,Tlabel,Cross2,0.5);
+                NP2->row(nuevos+1) = Cross2;
+                nuevos += 3;
+            }
+            for(i=0,size=indexGrid.size();i<size;++i){
+                if(indexGrid[i]%3==2){
+                    Cross1 = NP2->row(indexGrid[i]);
+                    GenData.row(indexGrid[i]) = get1Fit(data,Tlabel,Cross1,0.5);
+                    NP2->row(indexGrid[i]) = Cross1;
+                }
+            }
             // LOCALSEARCH
             if(localSearch==1 && generation%Every==0){
-                getFit(data,Tlabel,NewPopulation, GenData, 0.5);
                 if(perf!=1){
-                    //shuffleFit(Solutions, Fitness,-1);
-                    shuffleFit(NewPopulation,NewGenData,-1);
+                    shuffleFit(*NP2,GenData,seed);
                     for(i=0,size=localsize;i<size;++i){
                         behaviour[0] = GenData(i,0);
                         behaviour[1] = GenData(i,1);
-                        NewPopulation.row(i) = LocalSearch(data,Tlabel, NewPopulation.row(i),
-                                eval_num, max_eval,maxTilBetter,behaviour,0.5);
+                        NP2->row(i) = LocalSearch(data,Tlabel, NP2->row(i),
+                                eval_num, max_eval-evaluations,maxTilBetter,behaviour,0.5,seed);
                         GenData(i,0) = behaviour[0];
                         GenData(i,1) = behaviour[1];
                         evaluations += eval_num;
                     }
                 }else{
                     // Do over the best only
-                    getBest(NewGenData,indexGrid,localsize);
+                    getBest(GenData,indexGrid,localsize);
                     for(i=0;i<localsize;++i){
                         behaviour[0] = GenData(indexGrid[i],0);
                         behaviour[1] = GenData(indexGrid[i],1);
-                        NewPopulation.row(indexGrid[i]) =
-                            LocalSearch(data,Tlabel, NewPopulation.row(indexGrid[i]),
-                                    eval_num, max_eval,maxTilBetter,behaviour,0.5);
+                        NP2->row(indexGrid[i]) =
+                            LocalSearch(data,Tlabel, NP2->row(indexGrid[i]),
+                                    eval_num, max_eval-evaluations,maxTilBetter,behaviour,0.5,seed);
                         GenData(indexGrid[i],0) = behaviour[0];
                         GenData(indexGrid[i],1) = behaviour[1];
                         evaluations += eval_num;
                     }
                 }
-            }else{
-                //NewFitness = getFit(data,Tlabel,NewPopulation, NewGenData, 0.5);
-                getFit(data,Tlabel,NewPopulation, GenData, 0.5);
             }
 
             evaluations += Solutions.rows();
             ++generation;
 
             // MAKE SURE THE OLD BEST IS IN THE NEXT POPULATION
-            //NewFitness.minCoeff(&minIndex);
-            //NewFitness(minIndex) = Fitness.maxCoeff(&maxIndex);
             GenData.rowwise().sum().minCoeff(&minIndex);
             GenData.row(minIndex) = stored_fit;
-            NewPopulation.row(minIndex) = Solutions.row(maxIndex);
+            NP2->row(minIndex) = P1->row(maxIndex);
 
-            Solutions = NewPopulation;
-            //Fitness = NewFitness;
-            //GenData = NewGenData;
+            swapper = P1;
+            P1 = NP2;
+            NP2 = swapper;
 
             if(debuggin){
                 GenData.rowwise().sum().maxCoeff(&maxIndex);
@@ -203,7 +225,11 @@ int main(int argc, char** argv){
 
         momentoFin = high_resolution_clock::now();
         tiempo = duration_cast<milliseconds>(momentoFin - momentoInicio);
-        getFit(test,Ttlabel, Solutions, GenData, 0.5);
+        if(generation+1%2==0)
+            swapper = P1;
+        else
+            swapper = NP2;
+        getFit(test,Ttlabel, *NP2, GenData, 0.5);
         GenData.rowwise().sum().maxCoeff(&maxIndex);
         GenData.rowwise().sum().minCoeff(&minIndex);
         cout << "###################################\n" ;
