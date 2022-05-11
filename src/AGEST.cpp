@@ -64,10 +64,10 @@ int main(int argc, char** argv){
     int cols = allData.cols();
     float P_m = 0.1, min, max;
     vector<float> behaviour; behaviour.resize(2);
-    MatrixXd Solutions(Chromo, cols), Descendents(2,cols);
+    MatrixXd Solutions(Chromo, cols), Descendents(2,cols),FirstRandom(Chromo,cols);
     MatrixXd GenData(Chromo,2), DFit(2,2);
 
-    Solutions = (MatrixXd::Random(Chromo,cols) + MatrixXd::Constant(Chromo,cols,1))/2.0;
+    FirstRandom = (MatrixXd::Random(Chromo,cols) + MatrixXd::Constant(Chromo,cols,1))/2.0;
     // RowVectorXd Fitness(Chromo), NewFitness(Chromo);
     RowVectorXd Cross1(Chromo), Cross2(Chromo);
     long int evaluations = 0, max_evaluations = 15000;
@@ -100,13 +100,15 @@ int main(int argc, char** argv){
         else
             getBalancedFold(group1,label_group1,group2,label_group2,data,Tlabel, test, Ttlabel,x,seed);
 
+        //Solutions = FirstRandom;
+        Solutions = (MatrixXd::Random(Chromo,cols) + MatrixXd::Constant(Chromo,cols,1))/2.0;
         // GET INITIAL FITNESS
         //Fitness = getFit(data,Tlabel, Solutions,0.5);
         getFit(data,Tlabel,Solutions,GenData,0.5);
         generation = evaluations = 0;
         while(evaluations < max_evaluations){
             //shuffleFit(Solutions, Fitness,-1);
-            shuffleFit(Solutions,GenData,seed);
+            shuffleFit(Solutions,GenData,-1);
 
             // START CROSSING
             do{
@@ -127,21 +129,21 @@ int main(int argc, char** argv){
                 }
             }
             pair2 = Random::get(0,1);
-            if(pair1<=P_m){
+            if(pair2<=P_m){
                 Diversidad = Random::get<unsigned>(0,data.cols()-1);
                 for(i=0,size=Diversidad;i<size;++i){
-                    Cross1(Random::get<unsigned>(0,data.cols()-1)) += Random::get(distribution);
+                    Cross2(Random::get<unsigned>(0,data.cols()-1)) += Random::get(distribution);
                 }
             }
             Descendents.row(0) = Cross1;
-            Descendents.row(1) = Cross1;
+            Descendents.row(1) = Cross2;
 
             getFit(data,Tlabel,Descendents,DFit,0.5);
 
             // LOCALSEARCH
             if(localSearch==1 && generation%Every==0){
                 if(perf!=1){
-                    shuffleFit(Descendents,DFit,seed);
+                    shuffleFit(Descendents,DFit,-1);
                     for(i=0,size=localsize;i<size && i<Descendents.rows();++i){
                         behaviour[0] = DFit(i,0);
                         behaviour[1] = DFit(i,1);

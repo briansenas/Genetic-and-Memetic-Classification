@@ -55,6 +55,12 @@ void ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd& res1
  */
 void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVectorXd& res2, float alpha=0.3, long int seed=-1);
 
+void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion);
+void onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+        MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
+void randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+        MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
+
 void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, unsigned int &right, unsigned int &reduct);
 /*
  * @brief Data una matriz de datos con sus etiquetas y una matriz de pesos,
