@@ -1,6 +1,6 @@
 /**
  * @file mytools.cpp
- * @version 2.5
+ * @version 3.0
  * @date 05/04/2022
  * @author Brian Sena Simons 3ºA-A2
  * @brief Herramientas definidas para la práctica.
@@ -22,6 +22,8 @@
 #include <fstream>
 #include <math.h>
 #include <iostream>
+#include <fstream>
+#include <unistd.h>
 
 using namespace std;
 using namespace Eigen;
@@ -171,4 +173,30 @@ void getBest(MatrixXd GenData,vector<int>& indexGrid,unsigned int size){
     RowVectorXd Fitness(GenData.rows());
     Fitness = GenData.rowwise().sum().transpose();
     getBest(Fitness, indexGrid,size);
+}
+
+//https://stackoverflow.com/questions/5525668/how-to-implement-readlink-to-find-the-path
+string get_selfpath() {
+    char buff[PATH_MAX];
+    ssize_t len = ::readlink("/proc/self/exe", buff, sizeof(buff)-1);
+    if (len != -1) {
+      buff[len] = '\0';
+      return std::string(buff);
+    }
+    /* handle error condition */
+    return "";
+}
+//https://stackoverflow.com/questions/14539867/how-to-display-a-progress-indicator-in-pure-c-c-cout-printf
+void progress_bar(float progress){
+    int barWidth = 70;
+
+    std::cout << "[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) std::cout << "=";
+        else if (i == pos) std::cout << ">";
+        else std::cout << " ";
+    }
+    std::cout << "] " << int(progress * 100.0) << " %\r";
+    std::cout.flush();
 }

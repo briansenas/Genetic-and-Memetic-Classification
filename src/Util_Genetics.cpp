@@ -1,6 +1,6 @@
 /**
  * @file Util_Genetics.cpp
- * @version 1.0
+ * @version 2.0
  * @date 09/05/2022
  * @author Brian Sena Simons 3ºA-A2
  * @brief Funciones diferentes que pueda necesitar para el desarrollo de los
@@ -187,28 +187,6 @@ unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector
 
 }
 
-
-void getScores(MatrixXd data,vector<char>Tlabel, MatrixXd* NP2, MatrixXd& GenData, vector<int>& indexGrid,unsigned int Cruzes){
-            RowVectorXd Cross1, Cross2;
-            unsigned int nuevos = 0,i,size;
-            for(i=0,size=Cruzes;i<size;++i){
-                Cross1 = NP2->row(nuevos);
-                GenData.row(nuevos) = get1Fit(data,Tlabel,Cross1,0.5);
-                NP2->row(nuevos) = Cross1;
-                Cross2 = NP2->row(nuevos+1);
-                GenData.row(nuevos+1) = get1Fit(data,Tlabel,Cross2,0.5);
-                NP2->row(nuevos+1) = Cross2;
-                nuevos += 3;
-            }
-            for(i=0,size=indexGrid.size();i<size;++i){
-                if(indexGrid[i]%3==2){
-                    Cross1 = NP2->row(indexGrid[i]);
-                    GenData.row(indexGrid[i]) = get1Fit(data,Tlabel,Cross1,0.5);
-                    NP2->row(indexGrid[i]) = Cross1;
-                }
-            }
-}
-
 void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion){
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
     int Rest = Mutacion; unsigned int Diversidad=0, i=0;
@@ -225,7 +203,7 @@ void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion){
     }
 }
 
-void onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
 
     MatrixXd NewGenData(GenData.rows(),GenData.cols());
@@ -233,22 +211,18 @@ void onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd*
     vector<int> indexGrid;
     getBest(GenData,indexGrid,P1->rows());
     RowVectorXd Cross1, Cross2;
+    for(cont=2*Cruzes;cont<P1->rows();cont++){
+        NP2->row(cont) = P1->row(indexGrid[cont]);
+        NewGenData.row(cont) = GenData.row(indexGrid[cont]);
+    }
     for(i=0,size=Cruzes;i<size;++i){
-        for(cont=2*Cruzes;cont<P1->rows();cont++){
-            NP2->row(cont) = P1->row(indexGrid[cont]);
-            NewGenData.row(cont) = GenData.row(indexGrid[cont]);
-        }
         if(CrossType == 0)
-            BLXCross(P1->row(pair),P1->row(pair + 1),Cross1,Cross2);
+            BLXCross(P1->row(indexGrid[pair]),P1->row(indexGrid[pair+1]),Cross1,Cross2);
         else
-            ArithmeticCross(P1->row(pair),P1->row(pair + 1),Cross1,Cross2);
+            ArithmeticCross(P1->row(indexGrid[pair]),P1->row(indexGrid[pair+1]),Cross1,Cross2);
 
         NP2->row(nuevos) = Cross1;
         NP2->row(nuevos+1) = Cross2;
-
-        parent = (GenData.row(pair).sum()>GenData.row(pair+1).sum())? pair: pair+1;
-        NP2->row(nuevos+2) = P1->row(parent);
-        GenData.row(nuevos+2) = GenData.row(parent);
 
         pair+=2;
         nuevos+=2;
@@ -259,33 +233,86 @@ void onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd*
     }
 
     Mutate(NP2, indexGrid,Mutacion);
-    getScores(data,Tlabel,NP2,GenData,indexGrid,Cruzes);
+    unsigned int eval_cont = 0;
+    nuevos = 0;
+    for(i=0,size=Cruzes;i<size;++i){
+        Cross1 = NP2->row(nuevos);
+        GenData.row(nuevos) = get1Fit(data,Tlabel,Cross1,0.5);
+        NP2->row(nuevos) = Cross1;
+        Cross2 = NP2->row(nuevos+1);
+        GenData.row(nuevos+1) = get1Fit(data,Tlabel,Cross2,0.5);
+        NP2->row(nuevos+1) = Cross2;
+        eval_cont += 2;
+        nuevos+=2;
+    }
+    for(i=0,size=indexGrid.size();i<size;++i){
+        if(indexGrid[i]%3==2){
+            Cross1 = NP2->row(indexGrid[i]);
+            GenData.row(indexGrid[i]) = get1Fit(data,Tlabel,Cross1,0.5);
+            NP2->row(indexGrid[i]) = Cross1;
+            eval_cont++;
+        }
+    }
+    return eval_cont;
 }
 
-void randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+int randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
+
     unsigned int pair = 0,nuevos=0,i=0,size=0,parent=0;
-    vector<int> indexGrid;
-    getBest(GenData,indexGrid,P1->rows());
+    vector<int> indexGrid, randomIndex;
+    shuffleFit(*P1,GenData,-1);
+    MatrixXd NewGenData = GenData;
     RowVectorXd Cross1, Cross2;
-    for(i=0,size=Cruzes;i<size;++i){
+    bool full = false;
+    for(i=0,size=Cruzes;i<size&&!full;++i){
         if(CrossType == 0)
-            BLXCross(P1->row(pair),P1->row(pair + 1),Cross1,Cross2);
+            BLXCross(P1->row(pair),P1->row(pair+1),Cross1,Cross2);
         else
-            ArithmeticCross(P1->row(pair),P1->row(pair + 1),Cross1,Cross2);
+            ArithmeticCross(P1->row(pair),P1->row(pair+1),Cross1,Cross2);
 
         NP2->row(nuevos) = Cross1;
         NP2->row(nuevos+1) = Cross2;
 
-        parent = (GenData.row(pair).sum()>GenData.row(pair+1).sum())? pair: pair+1;
-        NP2->row(nuevos+2) = P1->row(parent);
-        GenData.row(nuevos+2) = GenData.row(parent);
-
+        NP2->row(nuevos+2) = (GenData.row(pair).sum()>GenData.row(pair+1).sum())? P1->row(pair): P1->row(pair+1);
+        NewGenData.row(nuevos+2) = GenData.row(parent);
         pair+=2;
-        nuevos+=3;
+        if(nuevos+5<NP2->rows()) nuevos+=3;
+        else full=true;
+    }
+    if(full){
+        for(;nuevos<NP2->rows();nuevos++){
+            NP2->row(nuevos) = P1->row(nuevos);
+            NewGenData.row(nuevos) = GenData.row(nuevos);
+        }
     }
 
     Mutate(NP2,indexGrid,Mutacion);
-    getScores(data,Tlabel,NP2,GenData,indexGrid,Cruzes);
+
+    full = false;
+    unsigned int eval_cont = 0;
+    nuevos = 0;
+    for(i=0,size=Cruzes;i<size&&!full;++i){
+        Cross1 = NP2->row(nuevos);
+        NewGenData.row(nuevos) = get1Fit(data,Tlabel,Cross1,0.5);
+        NP2->row(nuevos) = Cross1;
+        Cross2 = NP2->row(nuevos+1);
+        NewGenData.row(nuevos+1) = get1Fit(data,Tlabel,Cross2,0.5);
+        NP2->row(nuevos+1) = Cross2;
+
+        eval_cont += 2;
+        if(nuevos+5>NP2->rows()) full=true;
+        else nuevos+=3;
+    }
+    for(i=0,size=indexGrid.size();i<size;++i){
+        if(indexGrid[i]%3==2){
+            Cross1 = NP2->row(indexGrid[i]);
+            NewGenData.row(indexGrid[i]) = get1Fit(data,Tlabel,Cross1,0.5);
+            NP2->row(indexGrid[i]) = Cross1;
+            ++eval_cont;
+        }
+    }
+    GenData = NewGenData;
+    return eval_cont;
 }
 

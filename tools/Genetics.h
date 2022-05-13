@@ -1,6 +1,6 @@
 /**
  * @file Genetics.h
- * @version 1.0
+ * @version 2.0
  * @date 09/04/2022
  * @author Brian Sena Simons 3ºA-A2
  * @brief
@@ -55,10 +55,11 @@ void ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd& res1
  */
 void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVectorXd& res2, float alpha=0.3, long int seed=-1);
 
+int getScores(MatrixXd data,vector<char>Tlabel, MatrixXd* NP2, MatrixXd& GenData, vector<int>& indexGrid,unsigned int Cruzes);
 void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion);
-void onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
-void randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+int randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
 
 void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, unsigned int &right, unsigned int &reduct);

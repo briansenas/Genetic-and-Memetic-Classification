@@ -1,6 +1,6 @@
 /**
  * @file mytools.h
- * @version 2.3
+ * @version 3.0
  * @date 05/04/2022
  * @author Brian Sena Simons 3ºA-A2
  * @brief Herramientas definidas para la práctica.
@@ -96,5 +96,8 @@ Eigen::MatrixXd removeCol(Eigen::MatrixXd matrix, unsigned int colToRemove);
  */
 void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size);
 void getBest(MatrixXd GenData,vector<int>& indexGrid,unsigned int size);
+
+string get_selfpath();
+void progress_bar(float progress);
 
 #endif

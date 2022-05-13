@@ -7,10 +7,30 @@
 
 ## Ejecución individual:
 ### Algoritmo Generacional:
-./bin/AGGEN ./datos/ionosphere.arff {seed} [0-1] [0-1]
+- ./AGGEN (filename) (label1)\[char\] (label2)\[char\] (0=Print/1=WriteFile/2=Write+Plot\_data) (seed)[-∞,∞]
+(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=RandomKeepBestCross/1=TopKeepBestCross) (0=No/1=LocalSearch)
+{LOCALSEARCH OPTIONAL: (HowOften)\[0,inf\] (POP.Percentage)\[0.0,1.0\] (0=RandomSearch/1=OnlyBestSearch)};
 
-- Primer   0 ó 1: {0=Sin Barajar}; {1=Barajando};
-- Segundo  0 ó 1: {0=Cruce BLX};   {1=Cruce Aritmetico};
+    - Arg 1 = filename -> nombre del archivo de datos.
+    - Arg2 = label1 -> etiqueta del primer grupo del conjunto de datos de tipo char.
+    - Arg3 = label2 -> etiqueta del segundo grupo del conjunto de datos de tipo char.
+    - Arg4 = Bus -> 0 es imprimir por pantalla, 1 es escribir a ./results y 2 es escribir también a ./resutls/plots.
+    - Arg5 = seed -> semilla para el generador aleatorio.
+    - Arg6 = Preprocesar los datos -> 0 es Normal, 1 es Barajado y 2 es equilibrio de clase.
+    - Arg7 = Cruce -> 0 es el cruce BLX-alpha y 1 es el cruce Aritmético
+    - Arg8 = Pop. Size -> Tamaño de la población.
+    - Arg9 = Quiénes cruzan -> 0 cruzamos aleatoriamente y nos quedamos también con el mejor padre, 1 cruzamos apenas lo mejores padres.
+    - Arg10 = Búsqueda Local -> 0 es sin búsqueda y 1 es con búsqueda.
+    - Argumentos opcionales:
+        - Arg11 = HowOften -> Cada cuántas generaciones hacemos la búsqueda, Arg10 tiene que ser 1.
+        - Arg12 = Pop.Percentage -> A qué porcentaje de la población le aplico la búsqueda.
+        - Arg13 = A quiénes -> 0 es búsque a los seleccionados aleatoriamente y 1 a los mejores.
+
+- ./AGEST (filename) (label1)\[char\] (label2)\[char\] (0=Print/1=WriteFile/2=Write+Plot\_data) (seed)[-∞,∞]
+(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=No/1=LocalSearch)
+{LOCALSEARCH OPTIONAL: (HowOften)\[0,inf\] (POP.Percentage)\[0.0,1.0\] (0=RandomSearch/1=OnlyBestSearch)};
+
+    - Es lo mismo pero sin el ARG9;
 
 ## Descripción breve del Problema
 La idea es comparar distintos tipos de algoritmos para clasificar datos pertenecientes
