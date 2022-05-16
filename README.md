@@ -8,7 +8,7 @@
 ## Ejecución individual:
 ### Algoritmo Generacional:
 - ./AGGEN (filename) (label1)\[char\] (label2)\[char\] (0=Print/1=WriteFile/2=Write+Plot\_data) (seed)[-∞,∞]
-(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=RandomKeepBestCross/1=TopKeepBestCross) (0=No/1=LocalSearch)
+(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=RandomOnly,1=RandomKeepBestCross/1=TopKeepBestCross) (0=No/1=LocalSearch)
 {LOCALSEARCH OPTIONAL: (HowOften)\[0,inf\] (POP.Percentage)\[0.0,1.0\] (0=RandomSearch/1=OnlyBestSearch)};
 
     - Arg 1 = filename -> nombre del archivo de datos.
@@ -19,7 +19,9 @@
     - Arg6 = Preprocesar los datos -> 0 es Normal, 1 es Barajado y 2 es equilibrio de clase.
     - Arg7 = Cruce -> 0 es el cruce BLX-alpha y 1 es el cruce Aritmético
     - Arg8 = Pop. Size -> Tamaño de la población.
-    - Arg9 = Quiénes cruzan -> 0 cruzamos aleatoriamente y nos quedamos también con el mejor padre, 1 cruzamos apenas lo mejores padres.
+    - Arg9 = Quiénes cruzan -> 0 cruzamos aleatoriamente y lo que falte por llenar de la población será los que no cruzaron,
+            1 cruzamos aleatoriamente y nos quedamos también con el mejor padre, 1 cruzamos apenas lo mejores padres.
+            (TODOS MANTIENEN EL ELITISMO).
     - Arg10 = Búsqueda Local -> 0 es sin búsqueda y 1 es con búsqueda.
     - Argumentos opcionales:
         - Arg11 = HowOften -> Cada cuántas generaciones hacemos la búsqueda, Arg10 tiene que ser 1.
@@ -30,7 +32,7 @@
 (0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=No/1=LocalSearch)
 {LOCALSEARCH OPTIONAL: (HowOften)\[0,inf\] (POP.Percentage)\[0.0,1.0\] (0=RandomSearch/1=OnlyBestSearch)};
 
-    - Es lo mismo pero sin el ARG9;
+    - Es lo mismo pero sin el ARG9, ya que se elige dos padres al azar y se cruzan directamente;
 
 ## Descripción breve del Problema
 La idea es comparar distintos tipos de algoritmos para clasificar datos pertenecientes

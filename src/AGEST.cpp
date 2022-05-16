@@ -37,7 +37,7 @@ int main(int argc, char** argv){
     char type1 = *argv[2];
     char type2 = *argv[3];
     int streambus = atoi(argv[4]);
-    long int seed = atoi(argv[5]);
+    long long int seed = stoll(argv[5]);
     int shuffle = atoi(argv[6]);
     int CrossType = atoi(argv[7]);
     int Chromo = atoi(argv[8]);
@@ -75,7 +75,7 @@ int main(int argc, char** argv){
         std::string file_without_extension = base_filename.substr(0, p);
 
         string datafilename = "AGGEN_"+file_without_extension+to_string(seed)+"-"
-                            + ((CrossType>1)?"BLX":"ARI");
+                            + ((CrossType==0)?"BLX":"ARI");
         writefile = path+"../results/"+datafilename;
         writefile += (localSearch==1)?"LS.txt":".txt";
         myfile.open(writefile,ios::out|ios::trunc);
@@ -83,8 +83,8 @@ int main(int argc, char** argv){
             cerr << "[ERROR]: Couldn't open file, printing enabled" << endl;
             printing = true;
         }else{
-            myfile << " ### Algoritmo Genetico Generacional " + to_string(Chromo) + "### \n";
-            myfile << "F\tclasific\treducir\tfitness\ttime\n";
+            myfile << " ### Algoritmo Genetico Generacional " + to_string(Chromo) + " ### \n";
+            myfile << "F\tclasific\treducir \tfitness \ttime\n";
         }
 
         if(streambus>1){
@@ -106,7 +106,7 @@ int main(int argc, char** argv){
 
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
     int cols = allData.cols();
-    float P_m = 0.1, min, max;
+    float P_m = 0.1, min, max,alpha = 0.5;
     vector<float> behaviour; behaviour.resize(2);
     MatrixXd Solutions(Chromo, cols), Descendents(2,cols),FirstRandom(Chromo,cols);
     MatrixXd GenData(Chromo,2), DFit(2,2);
@@ -147,9 +147,10 @@ int main(int argc, char** argv){
         //Solutions = FirstRandom;
         Solutions = (MatrixXd::Random(Chromo,cols) + MatrixXd::Constant(Chromo,cols,1))/2.0;
         // GET INITIAL FITNESS
-        //Fitness = getFit(data,Tlabel, Solutions,0.5);
-        getFit(data,Tlabel,Solutions,GenData,0.5);
+        //Fitness = getFit(data,Tlabel, Solutions,alpha);
+        getFit(data,Tlabel,Solutions,GenData,alpha);
         generation = evaluations = 0;
+        evaluations += Solutions.rows();
         while(evaluations < max_evaluations){
             //shuffleFit(Solutions, Fitness,-1);
             shuffleFit(Solutions,GenData,-1);
@@ -182,7 +183,7 @@ int main(int argc, char** argv){
             Descendents.row(0) = Cross1;
             Descendents.row(1) = Cross2;
 
-            getFit(data,Tlabel,Descendents,DFit,0.5);
+            getFit(data,Tlabel,Descendents,DFit,alpha);
 
             // LOCALSEARCH
             if(localSearch==1 && generation%Every==0){
@@ -243,10 +244,10 @@ int main(int argc, char** argv){
             if(plotting){
                 GenData.rowwise().sum().maxCoeff(&maxIndex);
                 GenData.rowwise().sum().minCoeff(&minIndex);
-                output = to_string(generation) + "\t" + to_string(GenData(maxIndex,0)) +
-                    "\t" + to_string(GenData(maxIndex,0)) + "\t" + to_string(GenData.row(maxIndex).sum());
+                output = to_string(generation) + "\t" + to_string(GenData(maxIndex,0)/alpha) +
+                    "\t" + to_string(GenData(maxIndex,1)/(1-alpha)) + "\t" + to_string(GenData.row(maxIndex).sum());
                 plot << std::setw(31) << output;
-                output = "\t" + to_string(GenData(minIndex,0)) + "\t" + to_string(GenData(minIndex,0)) +
+                output = "\t" + to_string(GenData(minIndex,0)/alpha) + "\t" + to_string(GenData(minIndex,1)/(1-alpha)) +
                         "\t" + to_string(GenData.row(minIndex).sum()) + "\n";
                 plot << std::setw(30) << output;
             }
@@ -254,6 +255,7 @@ int main(int argc, char** argv){
 
         } // END WHILE
 
+        if(plotting) plot << "\n\n";
         momentoFin = high_resolution_clock::now();
         tiempo = duration_cast<milliseconds>(momentoFin - momentoInicio);
         getFit(test,Ttlabel, Solutions, GenData, 0.5);
@@ -262,12 +264,12 @@ int main(int argc, char** argv){
         if(printing){
             cout << "\n###################################\n" ;
             cout << "[GENERATION NUMBER]: " << generation << "\n";
-            cout << "[BEST FITNESS]: " << GenData(maxIndex,0) << "\t" << GenData(maxIndex,1) << "\t" << GenData.row(maxIndex).sum() << "\t";
+            cout << "[BEST FITNESS]: " << GenData(maxIndex,0)/alpha << "\t" << GenData(maxIndex,1)/(1-alpha) << "\t" << GenData.row(maxIndex).sum() << "\t";
             cout << tiempo.count() << endl;
-            // cout << "[WORST FITNESS]: " << GenData(minIndex,0) << "\t" << GenData(minIndex,1) << "\t" << GenData.row(minIndex).sum() << "\n";
+            // cout << "[WORST FITNESS]: " << GenData(minIndex,0)/alpha << "\t" << GenData(minIndex,1)/(1-alpha) << "\t" << GenData.row(minIndex).sum() << "\n";
         }else{
-            output = to_string(x) + "\t" + to_string(GenData(maxIndex,0))
-                    + "\t" +to_string(GenData(maxIndex,1)) + "\t" +
+            output = to_string(x) + "\t" + to_string(GenData(maxIndex,0)/alpha)
+                    + "\t" +to_string(GenData(maxIndex,1)/(1-alpha)) + "\t" +
                     to_string(GenData.row(maxIndex).sum()) + "\t" + to_string(tiempo.count()) + "\n";
             myfile << std::setw(30) << output;
         }

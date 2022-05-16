@@ -1,6 +1,6 @@
 /**
  * @file Util_Genetics.cpp
- * @version 2.0
+ * @version 2.3
  * @date 09/05/2022
  * @author Brian Sena Simons 3ºA-A2
  * @brief Funciones diferentes que pueda necesitar para el desarrollo de los
@@ -203,6 +203,59 @@ void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion){
     }
 }
 
+int randomOnly(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+        MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
+
+    MatrixXd NewGenData(GenData.rows(),GenData.cols());
+    unsigned int pair = 0,nuevos=0,i=0,size=0,cont=0,parent=0;
+    vector<int> indexGrid;
+    shuffleFit(*P1,GenData,-1);
+    RowVectorXd Cross1, Cross2;
+    for(cont=2*Cruzes;cont<P1->rows();cont++){
+        NP2->row(cont) = P1->row(cont);
+        NewGenData.row(cont) = GenData.row(cont);
+    }
+    for(i=0,size=Cruzes;i<size;++i){
+        if(CrossType == 0)
+            BLXCross(P1->row(pair),P1->row(pair+1),Cross1,Cross2);
+        else
+            ArithmeticCross(P1->row(pair),P1->row(pair+1),Cross1,Cross2);
+
+        NP2->row(nuevos) = Cross1;
+        NP2->row(nuevos+1) = Cross2;
+
+        pair+=2;
+        nuevos+=2;
+    }
+
+    for(parent=2*Cruzes;parent<P1->rows();parent++){
+        GenData.row(parent) = NewGenData.row(parent);
+    }
+
+    Mutate(NP2, indexGrid,Mutacion);
+    unsigned int eval_cont = 0;
+    nuevos = 0;
+    for(i=0,size=Cruzes;i<size;++i){
+        Cross1 = NP2->row(nuevos);
+        GenData.row(nuevos) = get1Fit(data,Tlabel,Cross1,0.5);
+        NP2->row(nuevos) = Cross1;
+        Cross2 = NP2->row(nuevos+1);
+        GenData.row(nuevos+1) = get1Fit(data,Tlabel,Cross2,0.5);
+        NP2->row(nuevos+1) = Cross2;
+        eval_cont += 2;
+        nuevos+=2;
+    }
+    for(i=0,size=indexGrid.size();i<size;++i){
+        if(indexGrid[i]>=int(2*Cruzes)){
+            Cross1 = NP2->row(indexGrid[i]);
+            GenData.row(indexGrid[i]) = get1Fit(data,Tlabel,Cross1,0.5);
+            NP2->row(indexGrid[i]) = Cross1;
+            eval_cont++;
+        }
+    }
+    return eval_cont;
+}
+
 int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
 
@@ -246,7 +299,7 @@ int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* 
         nuevos+=2;
     }
     for(i=0,size=indexGrid.size();i<size;++i){
-        if(indexGrid[i]%3==2){
+        if(indexGrid[i]>=int(2*Cruzes)){
             Cross1 = NP2->row(indexGrid[i]);
             GenData.row(indexGrid[i]) = get1Fit(data,Tlabel,Cross1,0.5);
             NP2->row(indexGrid[i]) = Cross1;

@@ -1,6 +1,6 @@
 /**
  * @file Genetics.h
- * @version 2.0
+ * @version 2.3
  * @date 09/04/2022
  * @author Brian Sena Simons 3ºA-A2
  * @brief
@@ -54,15 +54,20 @@ void ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd& res1
  * @param seed semilla para el generado de números aleatorios
  */
 void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVectorXd& res2, float alpha=0.3, long int seed=-1);
-
-int getScores(MatrixXd data,vector<char>Tlabel, MatrixXd* NP2, MatrixXd& GenData, vector<int>& indexGrid,unsigned int Cruzes);
 void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion);
+
+void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, unsigned int &right, unsigned int &reduct);
+int getScores(MatrixXd data,vector<char>Tlabel, MatrixXd* NP2, MatrixXd& GenData, vector<int>& indexGrid,unsigned int Cruzes);
+
+int randomOnly(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
+        MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
+
 int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
+
 int randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
 
-void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, unsigned int &right, unsigned int &reduct);
 /*
  * @brief Data una matriz de datos con sus etiquetas y una matriz de pesos,
  * para cada fila de la matriz de pesos computamos el valor resultante del 1NN
@@ -79,6 +84,7 @@ RowVectorXd getOnlyFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,f
 RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions, MatrixXd& GenData, float alpha=0.5);
 
 RowVectorXd get1Fit(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, float alpha=0.5 );
+
 /*
  *@brief Aplicamos búqueda local desde 0 hasta max_eval, con un máximo de vecinos
  visitados igual a maxTilBetter;
