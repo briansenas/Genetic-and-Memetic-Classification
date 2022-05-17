@@ -8,6 +8,7 @@
     - GEN -> Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7] y selección(0-2)[ARG9].
 - Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0.0 al 1.0 y si es 0=aleatorio 1=LosMejores. (ARG11-13).
 - Ejecutar un ./runAGEST-all.sh o el otro tarda alrededor de 4 minutos.
+
         -Ejemplo estacionario sin barajar con cruce artimético:  ./runAGEST-all.sh 150421 0 1
         -Ejemplo generacional sin barajar con cruce artimético de los mejores padres:  ./runAGGEN-all.sh 150421 0 1 2
         -Ejemplo estacionario sin barajar con cruce artimético memético:  ./runAGEST-ls-all.sh 150421 0 1 10 0.1 0
