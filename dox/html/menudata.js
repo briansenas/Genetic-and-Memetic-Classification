@@ -27,15 +27,5 @@ var menudata={children:[
 {text:"Archivos",url:"files.html",children:[
 {text:"Lista de archivos",url:"files.html"},
 {text:"Miembros de los ficheros",url:"globals.html",children:[
-{text:"Todo",url:"globals.html",children:[
-{text:"f",url:"globals.html#index_f"},
-{text:"g",url:"globals.html#index_g"},
-{text:"m",url:"globals.html#index_m"},
-{text:"r",url:"globals.html#index_r"},
-{text:"s",url:"globals.html#index_s"}]},
-{text:"Funciones",url:"globals_func.html",children:[
-{text:"f",url:"globals_func.html#index_f"},
-{text:"g",url:"globals_func.html#index_g"},
-{text:"m",url:"globals_func.html#index_m"},
-{text:"r",url:"globals_func.html#index_r"},
-{text:"s",url:"globals_func.html#index_s"}]}]}]}]}
+{text:"Todo",url:"globals.html"},
+{text:"Funciones",url:"globals_func.html"}]}]}]}

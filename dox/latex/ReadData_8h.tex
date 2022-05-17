@@ -54,7 +54,7 @@ Brian Sena Simons 3º\+A-\/\+A2
 \DoxyCodeLine{}
 \DoxyCodeLine{ RowVectorXd fil = \mbox{\hyperlink{mytools_8cpp_a3176dc33dc79b493d699596ece0e1ef7}{removeRow}}(mat,2);}
 \DoxyCodeLine{ MatriXd::Index pos;}
-\DoxyCodeLine{ \textcolor{keywordtype}{double} min = \mbox{\hyperlink{Euclidean_8cpp_ad065fd64357444d7792b80876fcfa41f}{minEuclideanDistance}}(fil,mat,pos);}
+\DoxyCodeLine{ \textcolor{keywordtype}{double} min = \mbox{\hyperlink{Euclidean_8h_ad065fd64357444d7792b80876fcfa41f}{minEuclideanDistance}}(fil,mat,pos);}
 \DoxyCodeLine{ cout << \textcolor{stringliteral}{"{}Mínimo vecino por fila en: "{}} << pos << \textcolor{stringliteral}{"{} con valor: "{}} << min << endl;}
 \DoxyCodeLine{\}}
 
@@ -70,7 +70,7 @@ Brian Sena Simons 3º\+A-\/\+A2
 \doxysubsubsection{\texorpdfstring{getBalancedFold()}{getBalancedFold()}}
 {\footnotesize\ttfamily void get\+Balanced\+Fold (\begin{DoxyParamCaption}\item[{Eigen\+::\+Matrix\+Xd}]{group1,  }\item[{vector$<$ char $>$}]{label1,  }\item[{Eigen\+::\+Matrix\+Xd}]{group2,  }\item[{vector$<$ char $>$}]{label2,  }\item[{Eigen\+::\+Matrix\+Xd \&}]{training,  }\item[{vector$<$ char $>$ \&}]{TLabel,  }\item[{Eigen\+::\+Matrix\+Xd \&}]{test,  }\item[{vector$<$ char $>$ \&}]{Tt\+Label,  }\item[{unsigned int}]{num,  }\item[{long int}]{seed }\end{DoxyParamCaption})}
 
-Hace lo mismo que \mbox{\hyperlink{ReadData_8cpp_ac7830bddd694d4aeb550f74ffc23528d}{get\+Fold()}} pero con un equilibrado de clase de por medio; Se utiliza \mbox{\hyperlink{ReadData_8cpp_abdfd60b2dabf33b1de7720bceaea78dc}{get\+Class()}} para obtener matrices correspondente a cada clase, se pasa a este método y lo para cada conjunto utiliza \mbox{\hyperlink{ReadData_8cpp_ac7830bddd694d4aeb550f74ffc23528d}{get\+Fold()}} para obtener su correspondente 80/20 y luego lo añade todo secuencialmente en el conjunto de entreno y testeo que luego a final son barajados. \mbox{\Hypertarget{ReadData_8h_a3c2da117b6d8079659b9d6ba6e15fed7}\label{ReadData_8h_a3c2da117b6d8079659b9d6ba6e15fed7}} 
+Hace lo mismo que \mbox{\hyperlink{ReadData_8h_a84ae2c8440383fed7b4006741e91cff3}{get\+Fold()}} pero con un equilibrado de clase de por medio; Se utiliza \mbox{\hyperlink{ReadData_8h_a3c2da117b6d8079659b9d6ba6e15fed7}{get\+Class()}} para obtener matrices correspondente a cada clase, se pasa a este método y lo para cada conjunto utiliza \mbox{\hyperlink{ReadData_8h_a84ae2c8440383fed7b4006741e91cff3}{get\+Fold()}} para obtener su correspondente 80/20 y luego lo añade todo secuencialmente en el conjunto de entreno y testeo que luego a final son barajados. \mbox{\Hypertarget{ReadData_8h_a3c2da117b6d8079659b9d6ba6e15fed7}\label{ReadData_8h_a3c2da117b6d8079659b9d6ba6e15fed7}} 
 \index{ReadData.h@{ReadData.h}!getClass@{getClass}}
 \index{getClass@{getClass}!ReadData.h@{ReadData.h}}
 \doxysubsubsection{\texorpdfstring{getClass()}{getClass()}}
@@ -147,7 +147,7 @@ get\+Foldby\+Loop divide la matrix de datos \char`\"{}data\char`\"{} en dos matr
 \hline
 \end{DoxyParams}
 \begin{DoxySeeAlso}{Ver también}
-\mbox{\hyperlink{ReadData_8cpp_ac7830bddd694d4aeb550f74ffc23528d}{get\+Fold()}}
+\mbox{\hyperlink{ReadData_8h_a84ae2c8440383fed7b4006741e91cff3}{get\+Fold()}}
 \end{DoxySeeAlso}
 La idea es calcular el 20\% de la Matrix total y luego con ese valor ir estableciendo el \char`\"{}boundary\char`\"{} superior a copiar para la primera (o toda la parte del dataset de entreno cuando num=0, boundary = 80\%) y luego copiar lo que sigue a boundary hasta un 20\% más (boundary + size) en test y luego copiar devuelta lo que queda en tranning. Pero en este caso no utilizamos las facilidades de la librería Eigen si no que apenas calculamos el tamaño total de las matrices a rellenar y vamos iterando a la vez que creamos las etiquetas adecuadas. \mbox{\Hypertarget{ReadData_8h_aef11c31862b1e9d5623ad9611548fd14}\label{ReadData_8h_aef11c31862b1e9d5623ad9611548fd14}} 
 \index{ReadData.h@{ReadData.h}!readValues@{readValues}}

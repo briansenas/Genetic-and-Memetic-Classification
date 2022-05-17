@@ -3,6 +3,11 @@
 
 ###- Utilize el "cmake CMakeLists.txt && make" para compilar;
 ###- Los algoritmos pueden ser ejecutados utilizando los scripts en ./scripts {Ej. runAll.sh}
+    - Para los scripts varian:
+        - EST -> Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7]
+        - GEN -> Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7] y selección(0-2)[ARG9].
+    - Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0 al 1 y si es 0=aleatorio 1=LosMejores.
+    - Ejecutar un ./runAGEST-all.sh o el otro tarda alrededor de 4 minutos.
 ###- Los resultados se guardan en ./results;
 
 ## Ejecución individual:
@@ -11,7 +16,7 @@
 (0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=RandomOnly,1=RandomKeepBestCross/1=TopKeepBestCross) (0=No/1=LocalSearch)
 {LOCALSEARCH OPTIONAL: (HowOften)\[0,inf\] (POP.Percentage)\[0.0,1.0\] (0=RandomSearch/1=OnlyBestSearch)};
 
-    - Arg 1 = filename -> nombre del archivo de datos.
+    - Arg1 = filename -> nombre del archivo de datos.
     - Arg2 = label1 -> etiqueta del primer grupo del conjunto de datos de tipo char.
     - Arg3 = label2 -> etiqueta del segundo grupo del conjunto de datos de tipo char.
     - Arg4 = Bus -> 0 es imprimir por pantalla, 1 es escribir a ./results y 2 es escribir también a ./resutls/plots.

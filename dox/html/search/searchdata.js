@@ -1,8 +1,8 @@
 var indexSectionsWithContent =
 {
-  0: "*efgmrs",
-  1: "egmr",
-  2: "fgmrs",
+  0: "*efglmrsu",
+  1: "egmru",
+  2: "fglmrs",
   3: "*"
 };
 

@@ -122,10 +122,10 @@ Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><b>getClassLa
 <div class="line"> </div>
 <div class="line"> RowVectorXd fil = <a class="code hl_function" href="mytools_8cpp.html#a3176dc33dc79b493d699596ece0e1ef7">removeRow</a>(mat,2);</div>
 <div class="line"> MatriXd::Index pos;</div>
-<div class="line"> <span class="keywordtype">double</span> min = <a class="code hl_function" href="Euclidean_8cpp.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a>(fil,mat,pos);</div>
+<div class="line"> <span class="keywordtype">double</span> min = <a class="code hl_function" href="Euclidean_8h.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a>(fil,mat,pos);</div>
 <div class="line"> cout &lt;&lt; <span class="stringliteral">&quot;Mínimo vecino por fila en: &quot;</span> &lt;&lt; pos &lt;&lt; <span class="stringliteral">&quot; con valor: &quot;</span> &lt;&lt; min &lt;&lt; endl;</div>
 <div class="line">}</div>
-<div class="ttc" id="aEuclidean_8cpp_html_ad065fd64357444d7792b80876fcfa41f"><div class="ttname"><a href="Euclidean_8cpp.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a></div><div class="ttdeci">double minEuclideanDistance(Eigen::RowVectorXd fixed, Eigen::MatrixXd data, Eigen::MatrixXd::Index &amp;maxRow)</div><div class="ttdoc">minEuclideanDistance utiliza la librería Eigen para calcular el menor vecino por fila desde una fila ...</div><div class="ttdef"><b>Definition:</b> Euclidean.cpp:41</div></div>
+<div class="ttc" id="aEuclidean_8h_html_ad065fd64357444d7792b80876fcfa41f"><div class="ttname"><a href="Euclidean_8h.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a></div><div class="ttdeci">double minEuclideanDistance(Eigen::RowVectorXd fixed, Eigen::MatrixXd data, Eigen::MatrixXd::Index &amp;maxRow)</div><div class="ttdoc">minEuclideanDistance utiliza la librería Eigen para calcular el menor vecino por fila desde una fila ...</div><div class="ttdef"><b>Definition:</b> Util_Euclidean.cpp:41</div></div>
 <div class="ttc" id="amytools_8cpp_html_a3176dc33dc79b493d699596ece0e1ef7"><div class="ttname"><a href="mytools_8cpp.html#a3176dc33dc79b493d699596ece0e1ef7">removeRow</a></div><div class="ttdeci">Eigen::MatrixXd removeRow(Eigen::MatrixXd matrix, unsigned int rowToRemove)</div><div class="ttdoc">removeRow nos permite quitar una fila de una matrix de entrada (sin modificar la original) y devuelve...</div><div class="ttdef"><b>Definition:</b> mytools.cpp:126</div></div>
 </div><!-- fragment --> </dd></dl>
 </div><h2 class="groupheader">Documentación de las funciones</h2>
@@ -202,7 +202,7 @@ Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><b>getClassLa
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Hace lo mismo que <a class="el" href="ReadData_8cpp.html#ac7830bddd694d4aeb550f74ffc23528d" title="getFold divide la matrix de datos &quot;data&quot; en dos matrices &quot;tranning&quot; y &quot;test&quot; con los datos pertenecie...">getFold()</a> pero con un equilibrado de clase de por medio; Se utiliza <a class="el" href="ReadData_8cpp.html#abdfd60b2dabf33b1de7720bceaea78dc" title="getClass lo que nos devuelve es una matrix con los datos pertenecientes a una clase específica.">getClass()</a> para obtener matrices correspondente a cada clase, se pasa a este método y lo para cada conjunto utiliza <a class="el" href="ReadData_8cpp.html#ac7830bddd694d4aeb550f74ffc23528d" title="getFold divide la matrix de datos &quot;data&quot; en dos matrices &quot;tranning&quot; y &quot;test&quot; con los datos pertenecie...">getFold()</a> para obtener su correspondente 80/20 y luego lo añade todo secuencialmente en el conjunto de entreno y testeo que luego a final son barajados. </p>
+<p >Hace lo mismo que <a class="el" href="ReadData_8h.html#a84ae2c8440383fed7b4006741e91cff3" title="getFold divide la matrix de datos &quot;data&quot; en dos matrices &quot;tranning&quot; y &quot;test&quot; con los datos pertenecie...">getFold()</a> pero con un equilibrado de clase de por medio; Se utiliza <a class="el" href="ReadData_8h.html#a3c2da117b6d8079659b9d6ba6e15fed7" title="getClass lo que nos devuelve es una matrix con los datos pertenecientes a una clase específica.">getClass()</a> para obtener matrices correspondente a cada clase, se pasa a este método y lo para cada conjunto utiliza <a class="el" href="ReadData_8h.html#a84ae2c8440383fed7b4006741e91cff3" title="getFold divide la matrix de datos &quot;data&quot; en dos matrices &quot;tranning&quot; y &quot;test&quot; con los datos pertenecie...">getFold()</a> para obtener su correspondente 80/20 y luego lo añade todo secuencialmente en el conjunto de entreno y testeo que luego a final son barajados. </p>
 
 </div>
 </div>
@@ -394,7 +394,7 @@ Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><b>getClassLa
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>Ver también</dt><dd><a class="el" href="ReadData_8cpp.html#ac7830bddd694d4aeb550f74ffc23528d" title="getFold divide la matrix de datos &quot;data&quot; en dos matrices &quot;tranning&quot; y &quot;test&quot; con los datos pertenecie...">getFold()</a></dd></dl>
+<dl class="section see"><dt>Ver también</dt><dd><a class="el" href="ReadData_8h.html#a84ae2c8440383fed7b4006741e91cff3" title="getFold divide la matrix de datos &quot;data&quot; en dos matrices &quot;tranning&quot; y &quot;test&quot; con los datos pertenecie...">getFold()</a></dd></dl>
 <p>La idea es calcular el 20% de la Matrix total y luego con ese valor ir estableciendo el "boundary" superior a copiar para la primera (o toda la parte del dataset de entreno cuando num=0, boundary = 80%) y luego copiar lo que sigue a boundary hasta un 20% más (boundary + size) en test y luego copiar devuelta lo que queda en tranning. Pero en este caso no utilizamos las facilidades de la librería Eigen si no que apenas calculamos el tamaño total de las matrices a rellenar y vamos iterando a la vez que creamos las etiquetas adecuadas. </p>
 
 </div>

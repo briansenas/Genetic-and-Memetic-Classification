@@ -44,6 +44,26 @@
 \DoxyCodeLine{80 }
 \DoxyCodeLine{88 Eigen::MatrixXd \mbox{\hyperlink{mytools_8h_ab11c0c6f48347a29e1906bf38cb41131}{removeCol}}(Eigen::MatrixXd matrix, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} colToRemove);}
 \DoxyCodeLine{89 }
-\DoxyCodeLine{90 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{90 \textcolor{comment}{/*}}
+\DoxyCodeLine{91 \textcolor{comment}{ * @brief Iteramos sobre el vector de puntuación y devolvemos un vector de}}
+\DoxyCodeLine{92 \textcolor{comment}{ * tamaño size con los índices de los "{}size"{} primeros mejores valores.}}
+\DoxyCodeLine{93 \textcolor{comment}{ * @param Fitness Vector a iterar.}}
+\DoxyCodeLine{94 \textcolor{comment}{ * @param indexGrid Índices resultantes.}}
+\DoxyCodeLine{95 \textcolor{comment}{ * @param size Número de posiciones a computar.}}
+\DoxyCodeLine{96 \textcolor{comment}{ */}}
+\DoxyCodeLine{97 \textcolor{keywordtype}{void} getBest(RowVectorXd Fitness,vector<int>\& indexGrid,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} size);}
+\DoxyCodeLine{98 \textcolor{keywordtype}{void} getBest(MatrixXd GenData,vector<int>\& indexGrid,\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} size);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100 \textcolor{comment}{/*}}
+\DoxyCodeLine{101 \textcolor{comment}{ * @brief Calcula el path del ejecutable para poder obtener la dirección de la}}
+\DoxyCodeLine{102 \textcolor{comment}{ * carpeta results.}}
+\DoxyCodeLine{103 \textcolor{comment}{ */}}
+\DoxyCodeLine{104 \textcolor{keywordtype}{string} get\_selfpath();}
+\DoxyCodeLine{105 \textcolor{comment}{/*}}
+\DoxyCodeLine{106 \textcolor{comment}{ * @brief Simplesmente dibuja la barra de progreso del código.}}
+\DoxyCodeLine{107 \textcolor{comment}{ */}}
+\DoxyCodeLine{108 \textcolor{keywordtype}{void} progress\_bar(\textcolor{keywordtype}{float} progress);}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

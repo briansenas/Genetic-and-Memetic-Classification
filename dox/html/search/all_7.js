@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['has_5finsert_0',['has_insert',['../classeffolkronium_1_1details_1_1has__insert.html',1,'effolkronium::details']]],
-  ['has_5freserve_1',['has_reserve',['../classeffolkronium_1_1details_1_1has__reserve.html',1,'effolkronium::details']]]
+  ['shuffledata_0',['shuffleData',['../mytools_8cpp.html#a29d852399058fecfd4506ac5173a8c2f',1,'shuffleData(MatrixXd &amp;mat, vector&lt; char &gt; &amp;label, long int seed):&#160;mytools.cpp'],['../mytools_8h.html#a29d852399058fecfd4506ac5173a8c2f',1,'shuffleData(MatrixXd &amp;mat, vector&lt; char &gt; &amp;label, long int seed):&#160;mytools.cpp']]]
 ];

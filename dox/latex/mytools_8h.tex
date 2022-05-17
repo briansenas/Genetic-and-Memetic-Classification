@@ -34,14 +34,26 @@ void {\bfseries shuffle\+Only} (Matrix\+Xd \&mat, long int seed)
 Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{mytools_8h_a3176dc33dc79b493d699596ece0e1ef7}{remove\+Row}} (Eigen\+::\+Matrix\+Xd matrix, unsigned int row\+To\+Remove)
 \begin{DoxyCompactList}\small\item\em remove\+Row nos permite quitar una fila de una matrix de entrada (sin modificar la original) y devuelve la matrix resultante modificada. \end{DoxyCompactList}\item 
 Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{mytools_8h_ab11c0c6f48347a29e1906bf38cb41131}{remove\+Col}} (Eigen\+::\+Matrix\+Xd matrix, unsigned int col\+To\+Remove)
-\begin{DoxyCompactList}\small\item\em remove\+Row nos permite quitar una columna de una matrix de entrada (sin modificar la original) y devuelve la matrix resultante modificada. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em remove\+Row nos permite quitar una columna de una matrix de entrada (sin modificar la original) y devuelve la matrix resultante modificada. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mytools_8h_ad90131ed09f2c54bcb8540e0292f4848}\label{mytools_8h_ad90131ed09f2c54bcb8540e0292f4848}} 
+void {\bfseries get\+Best} (Row\+Vector\+Xd Fitness, vector$<$ int $>$ \&index\+Grid, unsigned int size)
+\item 
+\mbox{\Hypertarget{mytools_8h_a2589a7fed467649e3f4ed8585bcd8041}\label{mytools_8h_a2589a7fed467649e3f4ed8585bcd8041}} 
+void {\bfseries get\+Best} (Matrix\+Xd Gen\+Data, vector$<$ int $>$ \&index\+Grid, unsigned int size)
+\item 
+\mbox{\Hypertarget{mytools_8h_aef467996523ff814f45dc84c22bc1acc}\label{mytools_8h_aef467996523ff814f45dc84c22bc1acc}} 
+string {\bfseries get\+\_\+selfpath} ()
+\item 
+\mbox{\Hypertarget{mytools_8h_a5b143976fee33f1b6565884d2c45bb3a}\label{mytools_8h_a5b143976fee33f1b6565884d2c45bb3a}} 
+void {\bfseries progress\+\_\+bar} (float progress)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Descripción detallada}
 Herramientas definidas para la práctica. 
 
 \begin{DoxyVersion}{Versión}
-2.\+3 
+3.\+0 
 \end{DoxyVersion}
 \begin{DoxyDate}{Fecha}
 05/04/2022 
@@ -57,7 +69,7 @@ Brian Sena Simons 3º\+A-\/\+A2
 \DoxyCodeLine{}
 \DoxyCodeLine{ RowVectorXd fil = \mbox{\hyperlink{mytools_8cpp_a3176dc33dc79b493d699596ece0e1ef7}{removeRow}}(mat,2);}
 \DoxyCodeLine{ MatriXd::Index pos;}
-\DoxyCodeLine{ \textcolor{keywordtype}{double} min = \mbox{\hyperlink{Euclidean_8cpp_ad065fd64357444d7792b80876fcfa41f}{minEuclideanDistance}}(fil,mat,pos);}
+\DoxyCodeLine{ \textcolor{keywordtype}{double} min = \mbox{\hyperlink{Euclidean_8h_ad065fd64357444d7792b80876fcfa41f}{minEuclideanDistance}}(fil,mat,pos);}
 \DoxyCodeLine{ cout << \textcolor{stringliteral}{"{}Mínimo vecino por fila en: "{}} << pos << \textcolor{stringliteral}{"{} con valor: "{}} << min << endl;}
 \DoxyCodeLine{\}}
 

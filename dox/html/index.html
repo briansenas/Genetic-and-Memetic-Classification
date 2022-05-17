@@ -73,16 +73,45 @@ Práctica 2 - MetaHeurística</h1>
 - Utilize el "cmake CMakeLists.txt &amp;&amp; make" para compilar;</h3>
 <h3><a class="anchor" id="autotoc_md3"></a>
 - Los algoritmos pueden ser ejecutados utilizando los scripts en ./scripts {Ej. runAll.sh}</h3>
+<ul>
+<li>Para los scripts varian:<ul>
+<li>EST -&gt; Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7]</li>
+<li>GEN -&gt; Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7] y selección(0-2)[ARG9].</li>
+</ul>
+</li>
+<li>Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0 al 1 y si es 0=aleatorio 1=LosMejores.</li>
+<li>Ejecutar un ./runAGEST-all.sh o el otro tarda alrededor de 4 minutos. </li>
+</ul>
 <h3><a class="anchor" id="autotoc_md4"></a>
 - Los resultados se guardan en ./results;</h3>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Ejecución individual:</h2>
 <h3><a class="anchor" id="autotoc_md6"></a>
 Algoritmo Generacional:</h3>
-<p >./bin/AGGEN ./datos/ionosphere.arff {seed} [0-1] [0-1]</p>
 <ul>
-<li>Primer 0 ó 1: {0=Sin Barajar}; {1=Barajando};</li>
-<li>Segundo 0 ó 1: {0=Cruce BLX}; {1=Cruce Aritmetico};</li>
+<li>./AGGEN (filename) (label1)[char] (label2)[char] (0=Print/1=WriteFile/2=Write+Plot_data) (seed)[-∞,∞] (0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)[0,∞] (0=RandomOnly,1=RandomKeepBestCross/1=TopKeepBestCross) (0=No/1=LocalSearch) {LOCALSEARCH OPTIONAL: (HowOften)[0,inf] (POP.Percentage)[0.0,1.0] (0=RandomSearch/1=OnlyBestSearch)};<ul>
+<li>Arg1 = filename -&gt; nombre del archivo de datos.</li>
+<li>Arg2 = label1 -&gt; etiqueta del primer grupo del conjunto de datos de tipo char.</li>
+<li>Arg3 = label2 -&gt; etiqueta del segundo grupo del conjunto de datos de tipo char.</li>
+<li>Arg4 = Bus -&gt; 0 es imprimir por pantalla, 1 es escribir a ./results y 2 es escribir también a ./resutls/plots.</li>
+<li>Arg5 = seed -&gt; semilla para el generador aleatorio.</li>
+<li>Arg6 = Preprocesar los datos -&gt; 0 es Normal, 1 es Barajado y 2 es equilibrio de clase.</li>
+<li>Arg7 = Cruce -&gt; 0 es el cruce BLX-alpha y 1 es el cruce Aritmético</li>
+<li>Arg8 = Pop. Size -&gt; Tamaño de la población.</li>
+<li>Arg9 = Quiénes cruzan -&gt; 0 cruzamos aleatoriamente y lo que falte por llenar de la población será los que no cruzaron, 1 cruzamos aleatoriamente y nos quedamos también con el mejor padre, 1 cruzamos apenas lo mejores padres. (TODOS MANTIENEN EL ELITISMO).</li>
+<li>Arg10 = Búsqueda Local -&gt; 0 es sin búsqueda y 1 es con búsqueda.</li>
+<li>Argumentos opcionales:<ul>
+<li>Arg11 = HowOften -&gt; Cada cuántas generaciones hacemos la búsqueda, Arg10 tiene que ser 1.</li>
+<li>Arg12 = Pop.Percentage -&gt; A qué porcentaje de la población le aplico la búsqueda.</li>
+<li>Arg13 = A quiénes -&gt; 0 es búsque a los seleccionados aleatoriamente y 1 a los mejores.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>./AGEST (filename) (label1)[char] (label2)[char] (0=Print/1=WriteFile/2=Write+Plot_data) (seed)[-∞,∞] (0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)[0,∞] (0=No/1=LocalSearch) {LOCALSEARCH OPTIONAL: (HowOften)[0,inf] (POP.Percentage)[0.0,1.0] (0=RandomSearch/1=OnlyBestSearch)};<ul>
+<li>Es lo mismo pero sin el ARG9, ya que se elige dos padres al azar y se cruzan directamente;</li>
+</ul>
+</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Descripción breve del Problema</h2>

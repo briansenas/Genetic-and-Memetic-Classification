@@ -112,7 +112,27 @@ $(function() {
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="mytools_8h.html#ab11c0c6f48347a29e1906bf38cb41131">   88</a></span>Eigen::MatrixXd <a class="code hl_function" href="mytools_8h.html#ab11c0c6f48347a29e1906bf38cb41131">removeCol</a>(Eigen::MatrixXd matrix, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> colToRemove);</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment"> * @brief Iteramos sobre el vector de puntuación y devolvemos un vector de</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment"> * tamaño size con los índices de los &quot;size&quot; primeros mejores valores.</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment"> * @param Fitness Vector a iterar.</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment"> * @param indexGrid Índices resultantes.</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment"> * @param size Número de posiciones a computar.</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keywordtype">void</span> getBest(RowVectorXd Fitness,vector&lt;int&gt;&amp; indexGrid,<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> size);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="keywordtype">void</span> getBest(MatrixXd GenData,vector&lt;int&gt;&amp; indexGrid,<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> size);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment"> * @brief Calcula el path del ejecutable para poder obtener la dirección de la</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment"> * carpeta results.</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keywordtype">string</span> get_selfpath();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment"> * @brief Simplesmente dibuja la barra de progreso del código.</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keywordtype">void</span> progress_bar(<span class="keywordtype">float</span> progress);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="amytools_8h_html_a29d852399058fecfd4506ac5173a8c2f"><div class="ttname"><a href="mytools_8h.html#a29d852399058fecfd4506ac5173a8c2f">shuffleData</a></div><div class="ttdeci">void shuffleData(MatrixXd &amp;mat, vector&lt; char &gt; &amp;label, long int seed)</div><div class="ttdoc">shuffleData utiliza el archivo &quot;random.hpp&quot; y la librería Eigen para crear un vector de índices,...</div><div class="ttdef"><b>Definition:</b> mytools.cpp:47</div></div>
 <div class="ttc" id="amytools_8h_html_a3176dc33dc79b493d699596ece0e1ef7"><div class="ttname"><a href="mytools_8h.html#a3176dc33dc79b493d699596ece0e1ef7">removeRow</a></div><div class="ttdeci">Eigen::MatrixXd removeRow(Eigen::MatrixXd matrix, unsigned int rowToRemove)</div><div class="ttdoc">removeRow nos permite quitar una fila de una matrix de entrada (sin modificar la original) y devuelve...</div><div class="ttdef"><b>Definition:</b> mytools.cpp:126</div></div>
 <div class="ttc" id="amytools_8h_html_ab11c0c6f48347a29e1906bf38cb41131"><div class="ttname"><a href="mytools_8h.html#ab11c0c6f48347a29e1906bf38cb41131">removeCol</a></div><div class="ttdeci">Eigen::MatrixXd removeCol(Eigen::MatrixXd matrix, unsigned int colToRemove)</div><div class="ttdoc">removeRow nos permite quitar una columna de una matrix de entrada (sin modificar la original) y devue...</div></div>

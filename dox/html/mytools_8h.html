@@ -112,10 +112,22 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>shuffleOnly</b> (Matr
 <tr class="memitem:ab11c0c6f48347a29e1906bf38cb41131"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mytools_8h.html#ab11c0c6f48347a29e1906bf38cb41131">removeCol</a> (Eigen::MatrixXd matrix, unsigned int colToRemove)</td></tr>
 <tr class="memdesc:ab11c0c6f48347a29e1906bf38cb41131"><td class="mdescLeft">&#160;</td><td class="mdescRight">removeRow nos permite quitar una columna de una matrix de entrada (sin modificar la original) y devuelve la matrix resultante modificada.  <a href="mytools_8h.html#ab11c0c6f48347a29e1906bf38cb41131">Más...</a><br /></td></tr>
 <tr class="separator:ab11c0c6f48347a29e1906bf38cb41131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90131ed09f2c54bcb8540e0292f4848"><td class="memItemLeft" align="right" valign="top"><a id="ad90131ed09f2c54bcb8540e0292f4848" name="ad90131ed09f2c54bcb8540e0292f4848"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>getBest</b> (RowVectorXd Fitness, vector&lt; int &gt; &amp;indexGrid, unsigned int size)</td></tr>
+<tr class="separator:ad90131ed09f2c54bcb8540e0292f4848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2589a7fed467649e3f4ed8585bcd8041"><td class="memItemLeft" align="right" valign="top"><a id="a2589a7fed467649e3f4ed8585bcd8041" name="a2589a7fed467649e3f4ed8585bcd8041"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>getBest</b> (MatrixXd GenData, vector&lt; int &gt; &amp;indexGrid, unsigned int size)</td></tr>
+<tr class="separator:a2589a7fed467649e3f4ed8585bcd8041"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef467996523ff814f45dc84c22bc1acc"><td class="memItemLeft" align="right" valign="top"><a id="aef467996523ff814f45dc84c22bc1acc" name="aef467996523ff814f45dc84c22bc1acc"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>get_selfpath</b> ()</td></tr>
+<tr class="separator:aef467996523ff814f45dc84c22bc1acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b143976fee33f1b6565884d2c45bb3a"><td class="memItemLeft" align="right" valign="top"><a id="a5b143976fee33f1b6565884d2c45bb3a" name="a5b143976fee33f1b6565884d2c45bb3a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>progress_bar</b> (float progress)</td></tr>
+<tr class="separator:a5b143976fee33f1b6565884d2c45bb3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
 <div class="textblock"><p >Herramientas definidas para la práctica. </p>
-<dl class="section version"><dt>Versión</dt><dd>2.3 </dd></dl>
+<dl class="section version"><dt>Versión</dt><dd>3.0 </dd></dl>
 <dl class="section date"><dt>Fecha</dt><dd>05/04/2022 </dd></dl>
 <dl class="section author"><dt>Autor</dt><dd>Brian Sena Simons 3ºA-A2 <div class="fragment"><div class="line"><span class="keywordtype">int</span> main(){</div>
 <div class="line"> MatrixXd mat(3,2);</div>
@@ -125,10 +137,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>shuffleOnly</b> (Matr
 <div class="line"> </div>
 <div class="line"> RowVectorXd fil = <a class="code hl_function" href="mytools_8cpp.html#a3176dc33dc79b493d699596ece0e1ef7">removeRow</a>(mat,2);</div>
 <div class="line"> MatriXd::Index pos;</div>
-<div class="line"> <span class="keywordtype">double</span> min = <a class="code hl_function" href="Euclidean_8cpp.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a>(fil,mat,pos);</div>
+<div class="line"> <span class="keywordtype">double</span> min = <a class="code hl_function" href="Euclidean_8h.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a>(fil,mat,pos);</div>
 <div class="line"> cout &lt;&lt; <span class="stringliteral">&quot;Mínimo vecino por fila en: &quot;</span> &lt;&lt; pos &lt;&lt; <span class="stringliteral">&quot; con valor: &quot;</span> &lt;&lt; min &lt;&lt; endl;</div>
 <div class="line">}</div>
-<div class="ttc" id="aEuclidean_8cpp_html_ad065fd64357444d7792b80876fcfa41f"><div class="ttname"><a href="Euclidean_8cpp.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a></div><div class="ttdeci">double minEuclideanDistance(Eigen::RowVectorXd fixed, Eigen::MatrixXd data, Eigen::MatrixXd::Index &amp;maxRow)</div><div class="ttdoc">minEuclideanDistance utiliza la librería Eigen para calcular el menor vecino por fila desde una fila ...</div><div class="ttdef"><b>Definition:</b> Euclidean.cpp:41</div></div>
+<div class="ttc" id="aEuclidean_8h_html_ad065fd64357444d7792b80876fcfa41f"><div class="ttname"><a href="Euclidean_8h.html#ad065fd64357444d7792b80876fcfa41f">minEuclideanDistance</a></div><div class="ttdeci">double minEuclideanDistance(Eigen::RowVectorXd fixed, Eigen::MatrixXd data, Eigen::MatrixXd::Index &amp;maxRow)</div><div class="ttdoc">minEuclideanDistance utiliza la librería Eigen para calcular el menor vecino por fila desde una fila ...</div><div class="ttdef"><b>Definition:</b> Util_Euclidean.cpp:41</div></div>
 <div class="ttc" id="amytools_8cpp_html_a3176dc33dc79b493d699596ece0e1ef7"><div class="ttname"><a href="mytools_8cpp.html#a3176dc33dc79b493d699596ece0e1ef7">removeRow</a></div><div class="ttdeci">Eigen::MatrixXd removeRow(Eigen::MatrixXd matrix, unsigned int rowToRemove)</div><div class="ttdoc">removeRow nos permite quitar una fila de una matrix de entrada (sin modificar la original) y devuelve...</div><div class="ttdef"><b>Definition:</b> mytools.cpp:126</div></div>
 </div><!-- fragment --> </dd></dl>
 </div><h2 class="groupheader">Documentación de las funciones</h2>
