@@ -6,7 +6,7 @@
     - Para los scripts varian:
         - EST -> Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7]
         - GEN -> Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7] y selección(0-2)[ARG9].
-    - Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0 al 1 y si es 0=aleatorio 1=LosMejores.
+    - Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0.0 al 1.0 y si es 0=aleatorio 1=LosMejores. (ARG11-13).
     - Ejecutar un ./runAGEST-all.sh o el otro tarda alrededor de 4 minutos.
 ###- Los resultados se guardan en ./results;
 
@@ -31,7 +31,7 @@
     - Argumentos opcionales:
         - Arg11 = HowOften -> Cada cuántas generaciones hacemos la búsqueda, Arg10 tiene que ser 1.
         - Arg12 = Pop.Percentage -> A qué porcentaje de la población le aplico la búsqueda.
-        - Arg13 = A quiénes -> 0 es búsque a los seleccionados aleatoriamente y 1 a los mejores.
+        - Arg13 = A quiénes -> 0 es búsqueda a los seleccionados aleatoriamente y 1 a los mejores.
 
 - ./AGEST (filename) (label1)\[char\] (label2)\[char\] (0=Print/1=WriteFile/2=Write+Plot\_data) (seed)[-∞,∞]
 (0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)\[0,∞\] (0=No/1=LocalSearch)
@@ -67,5 +67,3 @@ La última implementación, la versión memética, consiste en submeter esos alg
 a la búsqueda local cada cierto número de generación y observar el comportamiento.
 Una vez desarrollado toda la práctica y obtengamos todos los datos podemos
 proceder a realizar un análisis profundo de las diferencias.
-
-Para la práctica he tenido que definir las funciones en mytools.h y mytools.cpp;
