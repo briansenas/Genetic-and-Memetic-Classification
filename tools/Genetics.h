@@ -54,17 +54,63 @@ void ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd& res1
  * @param seed semilla para el generado de números aleatorios
  */
 void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVectorXd& res2, float alpha=0.3, long int seed=-1);
+/*
+ * @brief Mutar la matriz de entrada un número determinado de veces y guardar posiciones mutadas en indexGrid.
+ * @param NP2 Matriz a mutar.
+ * @param indexGrid Vector de índices mutados.
+ * @param Mutacion Número de veces a mutar.
+ */
 void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion);
 
+/*
+ * @brief Calcular la reducción y la clasificación de una solución.
+ * @param data Matriz de datos de entreno.
+ * @param Tlabel etiquetas de la matriz.
+ * @param Weights Solución a probar.
+ * @param right Dónde almacenaremos la tasa de aciertos.
+ * @param reduct Dónde almacenaremos la tasa de reducción.
+ */
 void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, unsigned int &right, unsigned int &reduct);
-int getScores(MatrixXd data,vector<char>Tlabel, MatrixXd* NP2, MatrixXd& GenData, vector<int>& indexGrid,unsigned int Cruzes);
 
+/*
+ * @brief Apenas cruzamos la matriz de soluciones barajadas sin ningún criterio
+ * @param data Matriz de datos
+ * @param Tlabel vector de etiquetas
+ * @param P1 Matriz de población inicial
+ * @param NP2 Matriz de población generada.
+ * @param GenData Matriz con las puntuaciones
+ * @param CrossType Tipo de cruze a realizar.
+ * @param Cruzes Número de cruzes a realizar
+ * @param Mutación Número de mutaciones a realizar.
+ */
 int randomOnly(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
 
+/*
+ * @brief Apenas cruzamos la matriz de soluciones ordendas de mejor a peor sin ningún criterio
+ * @param data Matriz de datos
+ * @param Tlabel vector de etiquetas
+ * @param P1 Matriz de población inicial
+ * @param NP2 Matriz de población generada.
+ * @param GenData Matriz con las puntuaciones
+ * @param CrossType Tipo de cruze a realizar.
+ * @param Cruzes Número de cruzes a realizar
+ * @param Mutación Número de mutaciones a realizar.
+ */
 int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
 
+/*
+ * @brief Cruzamos la matriz de soluciones barajada pero nos quedamos con el mejor padre de la pareja.
+ * @param data Matriz de datos
+ * @param Tlabel vector de etiquetas
+ * @param P1 Matriz de población inicial
+ * @param NP2 Matriz de población generada.
+ * @param GenData Matriz con las puntuaciones
+ * @param CrossType Tipo de cruze a realizar.
+ * @param Cruzes Número de cruzes a realizar
+ * @param Mutación Número de mutaciones a realizar.
+ */
 int randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion);
 

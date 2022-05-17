@@ -153,6 +153,10 @@ Eigen::MatrixXd removeColumn(Eigen::MatrixXd matrix, unsigned int colToRemove)
     return matrix;
 }
 
+/*
+ * @brief Simplesmente pasamos de Eigen a std::vector y llamamos a la función
+ * std::sort(). Fue la manera más eficiente que se me ocurrió.
+ */
 void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size){
     indexGrid.clear();
     vector<int> values, sorted;

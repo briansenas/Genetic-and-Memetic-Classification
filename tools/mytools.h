@@ -97,7 +97,14 @@ Eigen::MatrixXd removeCol(Eigen::MatrixXd matrix, unsigned int colToRemove);
 void getBest(RowVectorXd Fitness,vector<int>& indexGrid,unsigned int size);
 void getBest(MatrixXd GenData,vector<int>& indexGrid,unsigned int size);
 
+/*
+ * @brief Calcula el path del ejecutable para poder obtener la dirección de la
+ * carpeta results.
+ */
 string get_selfpath();
+/*
+ * @brief Simplesmente dibuja la barra de progreso del código.
+ */
 void progress_bar(float progress);
 
 #endif

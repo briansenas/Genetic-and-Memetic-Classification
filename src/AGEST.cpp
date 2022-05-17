@@ -12,6 +12,7 @@
 #include <chrono>
 #include <thread>
 #include <iomanip>
+#include <sstream>
 #include <ctime>
 #include <fstream>
 #include <unistd.h>
@@ -25,9 +26,10 @@ int main(int argc, char** argv){
 
     if(argc<=9){
         cerr << "[ERROR] Couldn't resolve file name;" << endl;
-        cerr << "[EXECUTION:] ./main (filename_directory) (label1)[char] (label2)[char] (0=Print/1=WriteFile/2=Write+Plot_data) (seed)[-∞,∞] \n"
-        << "\t\t(0=No/1=Shuffle/2=Balanced) (0=BLX/1=ARITHMETIC) (POP.SIZE)[0,∞] (0=No/1=LocalSearch) \n"
-        << "\t\t{LOCALSEARCH OPTIONAL: (HowOften)[0,inf] (POP.Percentage)[0.0,1.0] (0=Random/1=OnlyBest)}" << endl;
+        cerr << "[EXECUTION:] ./main (filename_directory) (label1)[char] (label2)[char]\n"
+             << "\t(0=Print/1=Write/2=Write+Plot) (seed)[-∞,∞] (0=No/1=Shuffle/2=Balanced)\n"
+             << "\t(0=BLX/1=ARITHMETIC) (POP.SIZE)[0,∞] (0=No/1=LocalSearch)\n"
+             << "\t{LS OPTIONAL: (HowOften)[0,inf] (POP.Percentage)[0.0,1.0] (0=Random/1=OnlyBest)}" << endl;
         exit(-1);
     }
     bool debuggin = false;
@@ -47,7 +49,6 @@ int main(int argc, char** argv){
     // Default values:
     int Every = 10, perf = -1;
     float amount = 0.1;
-    unsigned int localsize=ceil(amount*Chromo);
     if(localSearch==1 && argc>10){
         Every = atoi(argv[10]);
         if(argv[11] != NULL)
@@ -55,6 +56,7 @@ int main(int argc, char** argv){
         if(argv[12] != NULL)
             perf = atoi(argv[12]);
     }
+    unsigned int localsize=ceil(amount*Chromo);
     if(localSearch==1){
         cout << "[WARNING] Using default values for localsearch \n";
         cout << "[LOCALSEARCH] Every:  " << Every << endl;
@@ -74,10 +76,17 @@ int main(int argc, char** argv){
         std::string::size_type const p(base_filename.find_last_of('.'));
         std::string file_without_extension = base_filename.substr(0, p);
 
-        string datafilename = "AGGEN_"+file_without_extension+to_string(seed)+"-"
+        string datafilename = "AGEST_"+file_without_extension+to_string(seed)+"-"
                             + ((CrossType==0)?"BLX":"ARI");
+        if(localSearch==1){
+            stringstream ss;
+            ss << std::fixed << std::setprecision(2) << amount;
+            datafilename += "LS_" + to_string(Every) + "-" + ss.str();
+            if(perf==1)
+                datafilename += "B";
+        }
         writefile = path+"../results/"+datafilename;
-        writefile += (localSearch==1)?"LS.txt":".txt";
+        writefile += ".txt";
         myfile.open(writefile,ios::out|ios::trunc);
         if(!myfile.is_open()){
             cerr << "[ERROR]: Couldn't open file, printing enabled" << endl;

@@ -30,6 +30,12 @@ using namespace Eigen;
 using namespace std::chrono;
 using Random = effolkronium::random_static;
 
+/*
+ * @brief Gracias a la librería Eigen, podemos simplesmente sumar los padres y
+ * multiplicar por un scalar generado aleatoriamente entre 0 y 1; Y es como
+ * si estuvieramos haciendo un bucle for y sumando componente a componente, multiplicando
+ * por ese alpha fijo.
+ */
 void ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd& res1, RowVectorXd& res2, long int seed){
     if(seed!=-1)
         Random::seed(seed);
@@ -43,6 +49,13 @@ void ArithmeticCross(RowVectorXd parent1, RowVectorXd parent2, RowVectorXd& res1
     res2 = (parent1+parent2)*Random::get(0,1);
 }
 
+/*
+ * @brief Aquí no hay escapatoria, tenemos que hacer un bucle for para ir
+ * mirando el máximo y el mínimo componente a componente para poder calcular el
+ * intervalo a partir de la distancia entre esos y el valor alpha. Una vez tengamos
+ * el valor mínimo LOW y el máximo HIGH entonces podemos llamar al generador
+ * aleatorio para que nos genere un valor dentro del intervalo.
+ */
 void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVectorXd& res2, float alpha, long int seed){
     if(seed!=-1)
         Random::seed(seed);
@@ -66,6 +79,11 @@ void BLXCross(RowVectorXd parent1, RowVectorXd parent2,RowVectorXd& res1, RowVec
     }
 }
 
+/*
+ * @brief Esta función nos calcula la reducción modificando el vector de pesos y además
+ * calcula la tasa de clasificación y nos devuelve el valor por los parámetros por
+ * pasados por referencia reduct y right.
+ */
 void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, unsigned int &right, unsigned int &reduct){
         unsigned int i,size, ManualNeighbour;
         reduct = 0;
@@ -86,7 +104,11 @@ void getReductRight(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, un
         }
 }
 
-
+/*
+ * @brief Esta función nos devuelve apenas un vector con las funciones agregadas
+ * pero como al final quería generar las tablas y estudiar más a hondo lso resultados
+ * he cambiado por una matriz con la tasa de clasificación y la reducción.
+ */
 RowVectorXd getOnlyFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,float alpha ){
     unsigned int right=0,  reduct = 0;
     unsigned int j;
@@ -103,6 +125,12 @@ RowVectorXd getOnlyFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions,f
     return results;
 }
 
+/*
+ * @brief esta es la actualización de getOnlyFit() explicado anteriormente. La
+ * idea es la misma, obtener el fitness. Sin embargo, aquí lo almacenamos en una
+ * matriz GenData de 2 columnas, donde la primera es la tasa de clasificación
+ * multiplicada por alpha y la segunda es la de reducción multiplicada por 1-alpha.
+ */
 RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions, MatrixXd& GenData, float alpha ){
     unsigned int right=0,  reduct = 0;
     unsigned int j;
@@ -123,6 +151,10 @@ RowVectorXd getFit(MatrixXd data, vector<char> Tlabel, MatrixXd& Solutions, Matr
     return results;
 }
 
+/*
+ * @brief No siempre quiero calcular el fitness de toda la matriz, por ello
+ * he creado esta función que calcula apenas el fitness de 1 solución
+ */
 RowVectorXd get1Fit(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, float alpha ){
     unsigned int right=0,  reduct = 0;
     RowVectorXd results(2);
@@ -133,6 +165,13 @@ RowVectorXd get1Fit(MatrixXd data, vector<char> Tlabel, RowVectorXd& Weights, fl
 }
 
 
+/*
+ * @brief Búsqueda local utilizada en la práctica anterior. La idea es ir
+ * modificando el vector de soluciones Weights con una distribución normal
+ * de media 0 y varianza 0.3 aleatoriamente y aceptando los cambios cuando
+ * se produce una mejora. El máximo a evaluar es pasado por parámetro y el
+ * máximo de vecinos a explorar también (20*n_columnas).
+ */
 RowVectorXd LocalSearch(MatrixXd allData,vector<char> label, RowVectorXd Weights,
 unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector<float>& fitness, float alpha,long int seed){
     Random::seed(seed);
@@ -187,6 +226,12 @@ unsigned int& eval_num, unsigned int max_eval, unsigned int maxTilBetter, vector
 
 }
 
+/*
+ * @brief La idea es mutar un número de veces determinado por la esperanza
+ * matemática de la mutación. Y para aumentar la diversidad permito que se
+ * mute más de una componente de una fila dada. Además guardo las posiciones que
+ * se mutaron por si tengo que volver a calcular su fitness.
+ */
 void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion){
     std::normal_distribution<double> distribution(0.0, sqrt(0.3));
     int Rest = Mutacion; unsigned int Diversidad=0, i=0;
@@ -203,6 +248,10 @@ void Mutate(MatrixXd* NP2, vector<int>&indexGrid,unsigned int Mutacion){
     }
 }
 
+/*
+ * @brief Función que cruzan la matriz de forma aleatoria, cruzando los N primeros
+ * después de barajar.
+ */
 int randomOnly(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
 
@@ -256,6 +305,9 @@ int randomOnly(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
     return eval_cont;
 }
 
+/*
+ * @brief función que cruza los N primeros mejores padres de la matriz de soluciones
+ */
 int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
 
@@ -309,6 +361,10 @@ int onlyBestCrossing(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* 
     return eval_cont;
 }
 
+/*
+ * @brief función que cruza de forma aleatorioa los N primeros padres y  además
+ * guarda el padre de la pareja con mejor puntuación aumentando la presión social.
+ */
 int randomCrossKeepBest(MatrixXd data, vector<char> Tlabel, MatrixXd* P1,MatrixXd* NP2,
         MatrixXd& GenData,int CrossType, unsigned int Cruzes,unsigned int Mutacion){
 
