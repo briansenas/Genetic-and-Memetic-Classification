@@ -79,7 +79,7 @@ Práctica 2 - MetaHeurística</h1>
 <li>GEN -&gt; Es necesario una semilla, si barajamos los datos(0-2)[ARG6] y el tipo de cruce(0-1)[ARG7] y selección(0-2)[ARG9].</li>
 </ul>
 </li>
-<li>Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0 al 1 y si es 0=aleatorio 1=LosMejores.</li>
+<li>Si se quiere ejecutar con búsqueda local es necesario añadir cada cuantas generaciones, el porcentage de población de 0.0 al 1.0 y si es 0=aleatorio 1=LosMejores. (ARG11-13).</li>
 <li>Ejecutar un ./runAGEST-all.sh o el otro tarda alrededor de 4 minutos. </li>
 </ul>
 <h3><a class="anchor" id="autotoc_md4"></a>
@@ -103,7 +103,7 @@ Algoritmo Generacional:</h3>
 <li>Argumentos opcionales:<ul>
 <li>Arg11 = HowOften -&gt; Cada cuántas generaciones hacemos la búsqueda, Arg10 tiene que ser 1.</li>
 <li>Arg12 = Pop.Percentage -&gt; A qué porcentaje de la población le aplico la búsqueda.</li>
-<li>Arg13 = A quiénes -&gt; 0 es búsque a los seleccionados aleatoriamente y 1 a los mejores.</li>
+<li>Arg13 = A quiénes -&gt; 0 es búsqueda a los seleccionados aleatoriamente y 1 a los mejores.</li>
 </ul>
 </li>
 </ul>
@@ -119,8 +119,7 @@ Descripción breve del Problema</h2>
 <p >Una vez implementado el algoritmo 1NN intentaremos mejorar el porcentaje de aciertos utilizando técnicas de ponderación de características mediante un vector de pesos. El grueso de la práctica está en el cálculo de esos pesos. En esta parte de la práctica compararemos los algoritmos empleados anteriormente (1NN, Greedy, búsqueda local) con unas variaciones genéticas y meméticas.</p>
 <p >La primera de ella consiste en generar toda una nueva población de datos a partir de soluciones aleatorias utilizando operadores de cruces como lo es el BLX-alpha, que calcula un intervalo de valores a generar para explorar el vecindario, y el cruce aritmético que es una media ponderada de la característica a calcular (Columna o gen en concreto al que se aplica). Luego aplicaremos una mutación con una Probabilidad de 0.1 a uno o varios genes de una solución.</p>
 <p >La segunda implemetación consiste en generar dos nuevas soluciones a partir de dos padres aleatorios, mutarlas y que compitan para entrar de vuelta a la población original, es decir, deben de tener mejor valor de función.</p>
-<p >La última implementación, la versión memética, consiste en submeter esos algoritmos a la búsqueda local cada cierto número de generación y observar el comportamiento. Una vez desarrollado toda la práctica y obtengamos todos los datos podemos proceder a realizar un análisis profundo de las diferencias.</p>
-<p >Para la práctica he tenido que definir las funciones en <a class="el" href="mytools_8h.html" title="Herramientas definidas para la práctica.">mytools.h</a> y <a class="el" href="mytools_8cpp.html" title="Herramientas definidas para la práctica.">mytools.cpp</a>; </p>
+<p >La última implementación, la versión memética, consiste en submeter esos algoritmos a la búsqueda local cada cierto número de generación y observar el comportamiento. Una vez desarrollado toda la práctica y obtengamos todos los datos podemos proceder a realizar un análisis profundo de las diferencias. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
